@@ -24,7 +24,6 @@ const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full'},
 
   { path: 'invite/:id/create', component: InviteCreateComponent},
-  { path: 'invites', component: InviteListComponent},
   { path: 'invite/:id/update', component: InviteUpdateComponent, canActivate: [LoggedInGuard]},
   { path: 'invite/:id/delete', component: InviteDeleteComponent, canActivate: [LoggedInGuard] },
   { path: 'invite/myInvites', component: InviteListComponent},
