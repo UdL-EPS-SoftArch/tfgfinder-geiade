@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: '404', component: NotFoundComponent},
   { path: '', redirectTo: 'about', pathMatch: 'full'},
 
-  { path: 'invite/:id/create', component: InviteCreateComponent},
+  { path: 'invite/create', component: InviteCreateComponent},
   { path: 'invite/:id/update', component: InviteUpdateComponent, canActivate: [LoggedInGuard]},
   { path: 'invite/:id/delete', component: InviteDeleteComponent, canActivate: [LoggedInGuard] },
   { path: 'invite/myInvites', component: InviteListComponent},
