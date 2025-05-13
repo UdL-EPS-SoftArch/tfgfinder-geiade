@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {
-  HateoasResourceOperation,
-  PagedResourceCollection,
-  ResourceCollection
-} from '@lagoshny/ngx-hateoas-client';
-import { Observable } from 'rxjs';
-
-import { User } from '../login-basic/user';
+import { Observable } from 'rxjs/internal/Observable';
+import { HateoasResourceOperation, ResourceCollection } from '@lagoshny/ngx-hateoas-client';
 import {Invite} from "./invite";
+
+@Injectable({providedIn: 'root'})
+export class InviteService extends HateoasResourceOperation<Invite> {
+
+  constructor() {
+    super(Invite);
+  }
+
+  public findByTitle(query: string): Observable<ResourceCollection<Invite>> {
+    return this.searchCollection('findByTitle', {params: {text: query}});
+  }
+}
+/*
 
 @Injectable({
   providedIn: 'root'
@@ -73,3 +79,4 @@ export class InviteService extends HateoasResourceOperation<Invite> {
   }
 
 }
+*/
