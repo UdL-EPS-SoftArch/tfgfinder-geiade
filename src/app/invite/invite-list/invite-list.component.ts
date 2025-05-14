@@ -3,10 +3,18 @@ import {Router, RouterLink} from "@angular/router";
 import {Invite} from "../invite";
 import {InviteService} from "../invite.service";
 import {PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
+import {NgForOf} from "@angular/common";
+import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
+import {UserSearchComponent} from "../../user/user-search/user-search.component";
 
 @Component({
   selector: 'app-invite-list',
-  imports: [],
+  imports: [
+    NgForOf,
+    NgbPagination,
+    UserSearchComponent,
+    RouterLink
+  ],
   templateUrl: './invite-list.component.html'
 })
 export class InviteListComponent implements OnInit{

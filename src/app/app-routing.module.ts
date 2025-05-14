@@ -12,6 +12,7 @@ import {InviteCreateComponent} from "./invite/invite-create/invite-create.compon
 import {InviteListComponent} from "./invite/invite-list/invite-list.component";
 import {InviteDeleteComponent} from "./invite/invite-delete/invite-delete.component";
 import {InviteUpdateComponent} from "./invite/invite-update/invite-update.component";
+import {InviteDetailComponent} from "./invite/invite-detail/invite-detail.component";
 
 const routes: Routes = [
   { path: 'users/create', component: UserRegisterComponent},
@@ -24,7 +25,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full'},
 
   { path: 'invite/create', component: InviteCreateComponent},
-  { path: 'invite/:id/update', component: InviteUpdateComponent, canActivate: [LoggedInGuard]},
+  { path: 'invite/:id/detail', component: InviteDetailComponent, canActivate: [LoggedInGuard]},
   { path: 'invite/:id/delete', component: InviteDeleteComponent, canActivate: [LoggedInGuard] },
   { path: 'invite/myInvites', component: InviteListComponent},
 ];

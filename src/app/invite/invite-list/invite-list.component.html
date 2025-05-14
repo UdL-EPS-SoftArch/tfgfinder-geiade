@@ -1,3 +1,26 @@
-<div>
-  <h1>Funciona!</h1>
+<div class="card mb-1" *ngFor="let invite of invites">
+  <div class="card-block row m-1 col-12">
+    <div class="card-body row align-items-center">
+      <div class="col-4 mt-1">
+        <h6 class="card-subtitle text-muted">Who</h6>
+        <a class="card-text" [routerLink]="['/invite/', invite.id, '/detail']">{{invite.who}}</a>
+      </div>
+      <div class="col-4 mt-1">
+        <h6 class="card-subtitle text-muted">What</h6>
+        <p class="card-text">invite.what</p>
+      </div>
+      <div class="col-4 mt-1">
+        <h6 class="card-subtitle text-muted">Status</h6>
+        <p class="card-text">{{invite.status}}</p>
+      </div>
+
+    </div>
+  </div>
 </div>
+
+<ngb-pagination class="d-flex justify-content-center"
+                [(page)]="page" [pageSize]="pageSize" [collectionSize]="totalInvites"
+                (pageChange)="changePage()"></ngb-pagination>
+
+
+
