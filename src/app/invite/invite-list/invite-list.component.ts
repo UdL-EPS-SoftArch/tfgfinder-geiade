@@ -3,9 +3,10 @@ import {Router, RouterLink} from "@angular/router";
 import {Invite} from "../invite";
 import {InviteService} from "../invite.service";
 import {PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
 import {UserSearchComponent} from "../../user/user-search/user-search.component";
+import {UserDetailComponent} from "../../user/user-detail/user-detail.component";
 
 @Component({
   selector: 'app-invite-list',
@@ -13,7 +14,8 @@ import {UserSearchComponent} from "../../user/user-search/user-search.component"
     NgForOf,
     NgbPagination,
     UserSearchComponent,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './invite-list.component.html'
 })
@@ -31,6 +33,7 @@ export class InviteListComponent implements OnInit{
   ngOnInit(): void {
     this.inviteService.getPage({ pageParams:  { size: this.pageSize }, sort: { username: 'ASC' } }).subscribe(
       (page: PagedResourceCollection<Invite>) => {
+        console.log("Invites loaded:", page.resources); // <-- Verifica el contenido aquí
         this.invites = page.resources;
         this.totalInvites = page.totalElements;
       });
@@ -41,9 +44,9 @@ export class InviteListComponent implements OnInit{
       (page: PagedResourceCollection<Invite>) => this.invites = page.resources);
   }
 
-  detail(invite: Invite): void {
-    this.router.navigate(['myInvites', invite.id]);
+  /*
+  getInvite(): Invite {
+    return this.invites.findByWhoAndWhat();
   }
-
-
+  */
 }

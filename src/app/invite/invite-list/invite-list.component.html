@@ -1,17 +1,22 @@
 <div class="card mb-1" *ngFor="let invite of invites">
   <div class="card-block row m-1 col-12">
     <div class="card-body row align-items-center">
-      <div class="col-4 mt-1">
+      <div class="col-3 mt-1">
         <h6 class="card-subtitle text-muted">Who</h6>
-        <a class="card-text" [routerLink]="['/invite/', invite.id, '/detail']">{{invite.who}}</a>
+        <a class="card-text" [routerLink]="['/users', invite.who.username]">{{invite.who}}</a>
       </div>
-      <div class="col-4 mt-1">
+      <div class="col-3 mt-1">
         <h6 class="card-subtitle text-muted">What</h6>
         <p class="card-text">invite.what</p>
       </div>
-      <div class="col-4 mt-1">
+      <div class="col-3 mt-1">
         <h6 class="card-subtitle text-muted">Status</h6>
         <p class="card-text">{{invite.status}}</p>
+      </div>
+      <div class="col-3 mt-1 mr-auto">
+        <button id="deleteBtn" type="button" *ngIf="invite.id === invite.id" [routerLink]="['delete']"
+                class="btn m-1 btn-outline-danger">Delete
+        </button>
       </div>
 
     </div>
