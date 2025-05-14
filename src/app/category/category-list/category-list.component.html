@@ -1,0 +1,21 @@
+
+<div class="card mb-1" *ngFor="let category of categories">
+  <div class="card-block row m-1 col-12">
+    <div class="card-body row align-items-center">
+      <div class="col-6 mt-1">
+        <h6 class="card-subtitle text-muted">Category Name</h6>
+        <p class="card-text">{{category.name}}</p>
+      </div>
+      <div class="col-6 mt-1">
+        <h6 class="card-subtitle text-muted">E-mail</h6>
+        <p class="card-text">{{category.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngb-pagination class="d-flex justify-content-center"
+                [(page)]="page" [pageSize]="pageSize" [collectionSize]="totalcategories"
+                (pageChange)="changePage()"></ngb-pagination>
+
+
