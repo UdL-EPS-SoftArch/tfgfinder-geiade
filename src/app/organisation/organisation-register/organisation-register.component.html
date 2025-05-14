@@ -1,0 +1,22 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <label>Name</label>
+  <input formControlName="name" required />
+
+  <label>Description</label>
+  <input formControlName="description" />
+
+  <label>Website</label>
+  <input formControlName="website" />
+
+  <label>Username</label>
+  <input formControlName="username" required />
+
+  <label>Email</label>
+  <input formControlName="email" type="email" required />
+
+  <label>Password</label>
+  <input formControlName="password" type="password" required />
+
+  <button type="submit">Register Organisation</button>
+</form>
+<div *ngIf="errorMessage">{{ errorMessage }}</div>
