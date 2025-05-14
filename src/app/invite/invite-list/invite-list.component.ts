@@ -5,15 +5,12 @@ import {InviteService} from "../invite.service";
 import {PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
 import {NgForOf, NgIf} from "@angular/common";
 import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
-import {UserSearchComponent} from "../../user/user-search/user-search.component";
-import {UserDetailComponent} from "../../user/user-detail/user-detail.component";
 
 @Component({
   selector: 'app-invite-list',
   imports: [
     NgForOf,
     NgbPagination,
-    UserSearchComponent,
     RouterLink,
     NgIf
   ],
@@ -44,9 +41,4 @@ export class InviteListComponent implements OnInit{
       (page: PagedResourceCollection<Invite>) => this.invites = page.resources);
   }
 
-  /*
-  getInvite(): Invite {
-    return this.invites.findByWhoAndWhat();
-  }
-  */
 }

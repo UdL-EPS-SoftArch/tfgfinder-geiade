@@ -11,7 +11,6 @@ import { UserDeleteComponent } from './user/user-delete/user-delete.component';
 import {InviteCreateComponent} from "./invite/invite-create/invite-create.component";
 import {InviteListComponent} from "./invite/invite-list/invite-list.component";
 import {InviteDeleteComponent} from "./invite/invite-delete/invite-delete.component";
-import {InviteUpdateComponent} from "./invite/invite-update/invite-update.component";
 import {InviteDetailComponent} from "./invite/invite-detail/invite-detail.component";
 
 const routes: Routes = [
