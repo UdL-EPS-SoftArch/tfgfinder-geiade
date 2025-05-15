@@ -1,0 +1,8 @@
+<h2>Pending Organisation Registrations</h2>
+<ul>
+  <li *ngFor="let ext of externals">
+    {{ ext.name }} - {{ ext.user.email }}
+    <button (click)="approve(ext)">Approve</button>
+    <button (click)="reject(ext)">Reject</button>
+  </li>
+</ul>
