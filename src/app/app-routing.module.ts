@@ -17,7 +17,7 @@ import { ExternalListComponent } from './admin/external-list/external-list.compo
 
 
 const routes: Routes = [
-  { path: 'users/create', component: UserRegisterComponent},
+  { path: 'users/create', redirectTo: 'register-student', pathMatch: 'full'},
   { path: 'users/:id/delete', component: UserDeleteComponent, canActivate: [LoggedInGuard]},
   { path: 'users/:id/edit', component: UserEditComponent, canActivate: [LoggedInGuard]},
   { path: 'users/:id', component: UserDetailComponent, canActivate: [LoggedInGuard]},
