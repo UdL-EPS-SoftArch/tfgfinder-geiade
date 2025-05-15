@@ -5,6 +5,7 @@ import {InviteService} from "../invite.service";
 import {PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
 import {NgForOf, NgIf} from "@angular/common";
 import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
+import {User} from "../../login-basic/user";
 
 @Component({
   selector: 'app-invite-list',
@@ -32,6 +33,15 @@ export class InviteListComponent implements OnInit{
       (page: PagedResourceCollection<Invite>) => {
         console.log("Invites loaded:", page.resources); // <-- Verifica el contenido aquí
         this.invites = page.resources;
+
+        for (const invite of this.invites) {
+          const href = (invite as any)._links?.self?.href;
+          const idStr = href?.split('/').pop();
+          invite.id = Number(idStr);
+
+          invite.getRelation<User>('who').subscribe(user => invite.who = user);
+          //invite.getRelation<any>('what').subscribe(what => invite.what = what);
+        }
         this.totalInvites = page.totalElements;
       });
   }
@@ -39,6 +49,15 @@ export class InviteListComponent implements OnInit{
   changePage(): void {
     this.inviteService.getPage({ pageParams: { page: this.page - 1, size: this.pageSize }, sort: { username: 'ASC' } }).subscribe(
       (page: PagedResourceCollection<Invite>) => this.invites = page.resources);
+
+    for (const invite of this.invites) {
+      const href = (invite as any)._links?.self?.href;
+      const idStr = href?.split('/').pop();
+      invite.id = Number(idStr);
+
+      invite.getRelation<User>('who').subscribe(user => invite.who = user);
+      //invite.getRelation<any>('what').subscribe(what => invite.what = what);
+    }
   }
 
 }

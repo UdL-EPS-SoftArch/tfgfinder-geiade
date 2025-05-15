@@ -7,6 +7,7 @@ export class Invite extends Resource {
   inviteDate: Date = new Date();
   status: string;
   who: User = new User();
+  invite: any;
   //what: Proposal = new Proposal();
 
   constructor(values: object = {}) {
