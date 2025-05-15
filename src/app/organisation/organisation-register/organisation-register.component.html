@@ -1,22 +1,109 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <label>Name</label>
-  <input formControlName="name" required />
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+  <h2>Register Organisation</h2>
 
-  <label>Description</label>
-  <input formControlName="description" />
+  <div class="form-group">
+    <label for="name">Name <span>*</span></label>
+    <input id="name" formControlName="name" required placeholder="Enter organisation name" />
+  </div>
 
-  <label>Website</label>
-  <input formControlName="website" />
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input id="description" formControlName="description" placeholder="Brief description" />
+  </div>
 
-  <label>Username</label>
-  <input formControlName="username" required />
+  <div class="form-group">
+    <label for="website">Website</label>
+    <input id="website" formControlName="website" placeholder="https://example.com" />
+  </div>
 
-  <label>Email</label>
-  <input formControlName="email" type="email" required />
+  <div class="form-group">
+    <label for="username">Username <span>*</span></label>
+    <input id="username" formControlName="username" required placeholder="Choose a username" />
+  </div>
 
-  <label>Password</label>
-  <input formControlName="password" type="password" required />
+  <div class="form-group">
+    <label for="email">Email <span>*</span></label>
+    <input id="email" type="email" formControlName="email" required placeholder="you@example.com" />
+  </div>
 
-  <button type="submit">Register Organisation</button>
+  <div class="form-group">
+    <label for="password">Password <span>*</span></label>
+    <input id="password" type="password" formControlName="password" required placeholder="Create a password" />
+  </div>
+
+  <button type="submit" class="btn-submit">Register Organisation</button>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </form>
-<div *ngIf="errorMessage">{{ errorMessage }}</div>
+
+<style>
+  .form-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+  }
+
+  label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #34495e;
+  }
+
+  label span {
+    color: #e74c3c;
+  }
+
+  input {
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 6px #3498dbaa;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #3498db;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-submit:hover {
+    background-color: #2980b9;
+  }
+
+  .error-message {
+    margin-top: 1rem;
+    color: #e74c3c;
+    font-weight: 600;
+    text-align: center;
+  }
+</style>
