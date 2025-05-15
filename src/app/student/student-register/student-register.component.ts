@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { StudentService } from '../student-service';
 import { Student } from '../student';
 import { User } from '../../login-basic/user';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-student-register',
+  standalone: true,
   imports: [
     ReactiveFormsModule
   ],
@@ -47,4 +48,15 @@ export class StudentRegisterComponent {
       error: err => this.errorMessage = 'Error registering student: ' + err.message
     });
   }
+
+  getTouched(name: string): boolean {
+    const control = this.form.get(name);
+    return !!(control && control.touched);
+  }
+
+  getInvalid(name: string): boolean {
+    const control = this.form.get(name);
+    return !!(control && control.invalid);
+  }
+
 }

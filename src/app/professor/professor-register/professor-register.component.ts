@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { ProfessorService } from '../professor-service';
 import { Professor } from '../professor';
 import { User } from '../../login-basic/user';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-professor-register',
+  standalone: true,
   imports: [
     ReactiveFormsModule
   ],
@@ -46,5 +47,15 @@ export class ProfessorRegisterComponent {
       next: () => this.router.navigate(['/login']),
       error: err => this.errorMessage = 'Error registering professor: ' + err.message
     });
+  }
+
+  getTouched(name: string): boolean {
+    const control = this.form.get(name);
+    return !!(control && control.touched);
+  }
+
+  getInvalid(name: string): boolean {
+    const control = this.form.get(name);
+    return !!(control && control.invalid);
   }
 }

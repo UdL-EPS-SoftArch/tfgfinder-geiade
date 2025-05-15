@@ -1,21 +1,21 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container" novalidate>
-  <input formControlName="username" placeholder="Username" required />
-  <div class="error" *ngIf="form.controls.username.touched && form.controls.username.invalid">
+  <input id="username" formControlName="username" placeholder="Username" required />
+  <div class="error" *ngIf="getTouched('username') && getInvalid('username')">
     Username is required.
   </div>
 
-  <input formControlName="email" type="email" placeholder="Email" required />
-  <div class="error" *ngIf="form.controls.email.touched && form.controls.email.invalid">
-    <span *ngIf="form.controls.email.errors?.required">Email is required.</span>
-    <span *ngIf="form.controls.email.errors?.email">Invalid email format.</span>
+  <input id="email" formControlName="email" type="email" placeholder="Email" required />
+  <div class="error" *ngIf="getTouched('email') && getInvalid('email')">
+    <span *ngIf="form.get('email')?.errors?.required">Email is required.</span>
+    <span *ngIf="form.get('email')?.errors?.email">Invalid email format.</span>
   </div>
 
-  <input formControlName="password" type="password" placeholder="Password" required />
-  <div class="error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
+  <input id="password" formControlName="password" type="password" placeholder="Password" required />
+  <div class="error" *ngIf="getTouched('password') && getInvalid('password')">
     Password is required.
   </div>
 
-  <input formControlName="department" placeholder="Department (optional)" />
+  <input id="department" formControlName="department" placeholder="Department (optional)" />
 
   <button type="submit" [disabled]="form.invalid" class="btn-submit">Register</button>
 </form>

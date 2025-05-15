@@ -28,9 +28,14 @@ When("I fill the form with", (table: DataTable) => {
   table.rows().forEach((row: string[]) => {
     const field = row[0];
     const value = row[1];
-    cy.get('#' + field.toLowerCase()).clear().type(value).blur();
+    cy.get('#' + field.toLowerCase(), { timeout: 10000 }) // Espera hasta 10s
+      .should('be.visible') // Asegura visibilidad
+      .clear()
+      .type(value)
+      .blur();
   });
 });
+
 
 
 When("I click the {string} button", (label) => {
