@@ -3,52 +3,76 @@ Feature: Register User
   As a user
   I want to register myself and get an account
 
-  Scenario: Register new user
+  Scenario Outline: Register new <type> user
     Given I'm in the homepage
     And I'm not logged in
     When I click the "Register" menu
+    And I select "<type>" from the registration type options
     And I fill the form with
       | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
-      | password | password      |
+      | username | <username>    |
+      | email    | <email>       |
+      | password | <password>    |
     And I click the "Submit" button
-    Then I'm logged in as user "user"
+    Then I'm logged in as user "<username>"
+
+    Examples:
+      | type      | username | email           | password |
+      | student   | user1    | user1@demo.app  | password |
+      | professor | user2    | user2@demo.app  | password |
+
+  Scenario: Register organisation
+    Given I'm in the homepage
+    And I'm not logged in
+    When I click the "Register" menu
+    And I select "organisation" from the registration type options
+    And I fill the form with
+      | FIELD       | VALUE              |
+      | name        | Org Test           |
+      | website     | https://org.com    |
+      | username    | orguser            |
+      | email       | org@org.com        |
+      | password    | password           |
+    And I click the "Submit" button
+    Then I see the login page
 
   Scenario: Register existing username
     Given I'm in the homepage
     And I'm not logged in
     When I click the "Register" menu
+    And I select "student" from the registration type options
     And I fill the form with
       | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
+      | username | user1         |
+      | email    | userx@demo.app |
       | password | password      |
     And I click the "Submit" button
     Then I see error message "Unique index or primary key violation"
 
   Scenario: Register user when already authenticated
     Given I'm in the homepage
-    And I log in as "user" with password "password"
+    And I log in as "user1" with password "password"
     Then The "Register" menu is not present
 
   Scenario: Register user with empty password
     Given I'm in the homepage
     And I'm not logged in
     When I click the "Register" menu
+    And I select "student" from the registration type options
     And I fill the form with
       | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
+      | username | usertemp      |
+      | email    | temp@demo.app |
     Then The "Submit" button is disabled
 
   Scenario: Register user with empty email
     Given I'm in the homepage
     And I'm not logged in
     When I click the "Register" menu
+    And I select "student" from the registration type options
     And I fill the form with
       | FIELD    | VALUE         |
-      | username | user          |
+      | username | usertemp      |
       | password | password      |
     Then The "Submit" button is disabled
 
@@ -56,10 +80,11 @@ Feature: Register User
     Given I'm in the homepage
     And I'm not logged in
     When I click the "Register" menu
+    And I select "student" from the registration type options
     And I fill the form with
       | FIELD    | VALUE         |
-      | username | user          |
-      | email    | userdemo.app  |
+      | username | usertemp      |
+      | email    | invalidemail  |
       | password | password      |
     Then The "Submit" button is disabled
     And I see input field feedback message "An e-mail is required"
@@ -68,10 +93,11 @@ Feature: Register User
     Given I'm in the homepage
     And I'm not logged in
     When I click the "Register" menu
+    And I select "student" from the registration type options
     And I fill the form with
       | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
+      | username | shortpass     |
+      | email    | short@demo.app |
       | password | pass          |
     Then The "Submit" button is disabled
 
@@ -79,10 +105,11 @@ Feature: Register User
     Given I'm in the homepage
     And I'm not logged in
     When I click the "Register" menu
+    And I select "student" from the registration type options
     And I fill the form with
       | FIELD    | VALUE         |
-      | username | user2         |
-      | email    | user@demo.app |
+      | username | uniqueuser    |
+      | email    | user1@demo.app |
       | password | password      |
     And I click the "Submit" button
     Then I see error message "Unique index or primary key violation"
