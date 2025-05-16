@@ -17,13 +17,10 @@
   </div>
 
   <div class="form-group">
-    <label  id = "currentUser" for="username">Username <span>*</span></label>
+    <label   for="username">Username <span>*</span></label>
     <input id="username" formControlName="username" required placeholder="Choose a username" />
   </div>
-  <!-- Aquí mostramos el usuario autenticado -->
-  <div *ngIf="successMessage" id="currentUser">
-    {{ registerForm.value.username }}
-  </div>
+
   <div class="form-group">
     <label for="email">Email <span>*</span></label>
     <input id="email" type="email" formControlName="email" required placeholder="you@example.com" />
@@ -41,10 +38,10 @@
 
   <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
   <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-  +  <!-- Este bloque sólo aparece tras éxito y contiene el username -->
-  +  <div  id="currentUser">
-  +    {{ registerForm.value.username }}
-  +  </div>
+   <!-- Este bloque sólo aparece tras éxito y contiene el username -->
+    <div  id="currentUser">
+      {{ registerForm.value.username }}
+    </div>
 </form>
 
 

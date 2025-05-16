@@ -55,7 +55,6 @@ Then("I see error message {string}", (message) => {
 
 Then("The {string} button is disabled", (_label) => {
   cy.get('[data-cy=submit]').should('be.disabled')
-    .blur();
 });
 
 Then("The {string} menu is not present", (option) => {
