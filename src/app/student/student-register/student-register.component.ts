@@ -1,62 +1,55 @@
 import { Component } from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { StudentService } from '../student-service';
-import { Student } from '../student';
-import { User } from '../../login-basic/user';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
+import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-student-register',
-  standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './student-register.component.html'
 })
 export class StudentRegisterComponent {
-  form: FormGroup;
-  submitted = false;
-  errorMessage = '';
+  registerForm: FormGroup;
+  successMessage: string = '';
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private studentService: StudentService, private router: Router) {
-    this.form = this.fb.group({
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthenticationBasicService,
+    private router: Router
+  ) {
+    this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      degree: ['']
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
-  onSubmit() {
-    this.submitted = true;
-    if (this.form.invalid) return;
+  onSubmit(): void {
+    if (this.registerForm.invalid) return;
 
-    const user = new User({
-      username: this.form.value.username,
-      email: this.form.value.email,
-      password: this.form.value.password,
-      authorities: [{ authority: 'ROLE_STUDENT' }]
+    this.authService.registerStudent(this.registerForm.value).subscribe({
+      next: () => {
+        this.successMessage = '¡Registro exitoso!';
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        console.error('Error en el registro:', err); // 👈 Añade esto
+        this.successMessage = '';
+        this.errorMessage = 'No se pudo completar el registro.';
+      }
     });
 
-    const student = new Student({
-      user: user,
-      degree: this.form.value.degree
-    });
-
-    this.studentService.createResource({ body: student }).subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: err => this.errorMessage = 'Error registering student: ' + err.message
-    });
   }
 
-  getTouched(name: string): boolean {
-    const control = this.form.get(name);
-    return !!(control && control.touched);
+  isTouchedAndInvalid(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return !!(control?.invalid && (control?.touched || control?.dirty));
   }
 
-  getInvalid(name: string): boolean {
-    const control = this.form.get(name);
-    return !!(control && control.invalid);
-  }
 
 }

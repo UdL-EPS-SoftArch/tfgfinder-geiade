@@ -14,7 +14,7 @@ import { LoginNavbarComponent } from '../login-basic/login-navbar.component';
 export class NavbarComponent implements OnInit {
   public isCollapsed: boolean;
 
-  constructor(private authenticationService: AuthenticationBasicService) {
+  constructor(public authService: AuthenticationBasicService) {
   }
 
   ngOnInit(): void {
@@ -22,10 +22,10 @@ export class NavbarComponent implements OnInit {
   }
 
   isLogged(): boolean {
-    return this.authenticationService.isLoggedIn();
+    return this.authService.isLoggedIn();
   }
 
   isRole(role: string): boolean {
-    return this.authenticationService.isRole(role);
+    return this.authService.isRole(role);
   }
 }

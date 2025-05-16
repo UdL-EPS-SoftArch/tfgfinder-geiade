@@ -1,58 +1,54 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { ExternalService } from '../../external/external-service';
-import { External } from '../../external/external';
-import { User } from '../../login-basic/user';
-
+import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-organisation-register',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './organisation-register.component.html'
 })
 export class OrganisationRegisterComponent {
   registerForm: FormGroup;
-  submitted = false;
-  errorMessage = '';
+  successMessage: string = '';
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder,
-              private externalService: ExternalService,
-              private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthenticationBasicService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
       website: [''],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
-  onSubmit() {
-    this.submitted = true;
+  onSubmit(): void {
     if (this.registerForm.invalid) return;
-
-    const user = new User({
-      username: this.registerForm.value.username,
-      email: this.registerForm.value.email,
-      password: this.registerForm.value.password,
-      authorities: [{ authority: 'ROLE_ORGANISATION' }]
-    });
-
-    const external = new External({
-      name: this.registerForm.value.name,
-      description: this.registerForm.value.description,
-      website: this.registerForm.value.website,
-      user: user,
-      status: 'pending'
-    });
-
-    this.externalService.createResource({ body: external }).subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: err => this.errorMessage = 'Error registering organisation: ' + err.message
+    this.auth.registerOrganisation(this.registerForm.value).subscribe({
+      next: () => {
+        this.successMessage = 'Registro enviado. Tu organización será validada por un administrador. Recibirás un email en menos de 24 horas.';
+        setTimeout(() => this.router.navigate(['/login']), 3000);
+        this.registerForm.reset();
+      },
+      error: (err) => {
+        this.errorMessage = err.error.message || 'No se pudo completar el registro.';
+      }
     });
   }
+  isTouchedAndInvalid(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return !!(control?.invalid && (control?.touched || control?.dirty));
+  }
+
+
 }

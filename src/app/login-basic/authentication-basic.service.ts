@@ -1,36 +1,14 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { User } from './user';
-import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthenticationBasicService {
+  private authUrl = '/api/auth'; // Ajusta según tu API backend
 
-  constructor(private http: HttpClient) {
-  }
-
-  login(username: string, password: string): Observable<User> {
-    const authorization = this.generateAuthorization(username, password);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: authorization
-      })
-    };
-    return this.http.get(`${environment.API}/identity`, httpOptions).pipe(
-      map(data => {
-        const user: User = new User(data);
-        user.authorization = authorization;
-        this.storeCurrentUser(user);
-        return user;
-      })
-    );
-  }
-
-  generateAuthorization(username: string, password: string): string {
-    return `Basic ${btoa(`${username}:${password}`)}`;
-  }
+  constructor(private http: HttpClient) {}
 
   storeCurrentUser(user: User): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
@@ -44,12 +22,36 @@ export class AuthenticationBasicService {
     return localStorage.getItem('currentUser') !== null;
   }
 
-  getCurrentUser(): User {
-    return new User(JSON.parse(localStorage.getItem('currentUser')));
+  getCurrentUser(): User | null {
+    const data = localStorage.getItem('currentUser');
+    return data ? new User(JSON.parse(data)) : null;
   }
+
 
   isRole(role: string): boolean {
     const user: User = this.getCurrentUser();
     return user && user.authorities[0] && user.authorities[0].authority === 'ROLE_' + role.toUpperCase();
+  }
+
+  registerStudent(data: any): Observable<any> {
+    return this.http.post(`${this.authUrl}/register-student`, data).pipe(
+      tap(() => this.login(data.username, data.password).subscribe())
+    );
+  }
+
+  registerProfessor(data: any): Observable<any> {
+    return this.http.post(`${this.authUrl}/register-professor`, data).pipe(
+      tap(() => this.login(data.username, data.password).subscribe())
+    );
+  }
+
+  registerOrganisation(data: any): Observable<any> {
+    return this.http.post(`${this.authUrl}/register-organisation`, data);
+  }
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.authUrl}/login`, { username, password }).pipe(
+      tap((user: any) => this.storeCurrentUser(user))
+    );
   }
 }

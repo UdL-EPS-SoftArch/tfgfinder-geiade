@@ -12,23 +12,23 @@ import { NgIf } from '@angular/common';
 })
 export class LoginNavbarComponent {
 
-  constructor(private authenticationService: AuthenticationBasicService, private router: Router) {}
+  constructor(public authService: AuthenticationBasicService, private router: Router) {}
 
   getCurrentUser(): User {
-    return this.authenticationService.getCurrentUser();
+    return this.authService.getCurrentUser();
   }
 
   isLoggedIn(): boolean {
-    return this.authenticationService.isLoggedIn();
+    return this.authService.isLoggedIn();
   }
 
   isRole(role: string): boolean {
-    return this.authenticationService.isRole(role);
+    return this.authService.isRole(role);
   }
 
   logout(event): void {
     event.preventDefault();
-    this.authenticationService.logout();
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

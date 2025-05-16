@@ -1,24 +1,31 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container" novalidate>
-  <input id="username" formControlName="username" placeholder="Username" required />
-  <div class="error" *ngIf="getTouched('username') && getInvalid('username')">
-    Username is required.
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+  <h2>Register Professor</h2>
+
+  <div class="form-group">
+    <label for="username">Username <span>*</span></label>
+    <input id="username" formControlName="username" required placeholder="Choose a username" />
   </div>
 
-  <input id="email" formControlName="email" type="email" placeholder="Email" required />
-  <div class="error" *ngIf="getTouched('email') && getInvalid('email')">
-    <span *ngIf="form.get('email')?.errors?.required">Email is required.</span>
-    <span *ngIf="form.get('email')?.errors?.email">Invalid email format.</span>
+  <div class="form-group">
+    <label for="email">Email <span>*</span></label>
+    <input id="email" type="email" formControlName="email" required placeholder="you@example.com" />
+    <div *ngIf="isTouchedAndInvalid('email')" class="invalid-feedback">
+      An e-mail is required
+    </div>
   </div>
 
-  <input id="password" formControlName="password" type="password" placeholder="Password" required />
-  <div class="error" *ngIf="getTouched('password') && getInvalid('password')">
-    Password is required.
+  <div class="form-group">
+    <label for="password">Password <span>*</span></label>
+    <input id="password" type="password" formControlName="password" required placeholder="Create a password" />
   </div>
 
-  <input id="department" formControlName="department" placeholder="Department (optional)" />
+  <button type="submit" class="btn-submit" data-cy="submit" [disabled]="registerForm.invalid">Register Professor</button>
 
-  <button type="submit" [disabled]="form.invalid" class="btn-submit" data-cy="submit" >Register</button>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 </form>
+
+
 
 
 <style>
@@ -66,10 +73,17 @@
     cursor: not-allowed;
   }
 
-  .error {
+  .success-message {
+    margin-top: 1rem;
+    color: #27ae60;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .error-message {
+    margin-top: 1rem;
     color: #e74c3c;
-    font-size: 0.85rem;
-    margin-top: -0.75rem;
-    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-align: center;
   }
 </style>

@@ -1,61 +1,51 @@
 import { Component } from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProfessorService } from '../professor-service';
-import { Professor } from '../professor';
-import { User } from '../../login-basic/user';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-professor-register',
-  standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './professor-register.component.html'
 })
 export class ProfessorRegisterComponent {
-  form: FormGroup;
-  submitted = false;
-  errorMessage = '';
+  registerForm: FormGroup;
+  successMessage: string = '';
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private professorService: ProfessorService, private router: Router) {
-    this.form = this.fb.group({
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthenticationBasicService,
+    private router: Router
+  ) {
+    this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      department: ['']
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
-  onSubmit() {
-    this.submitted = true;
-    if (this.form.invalid) return;
+  onSubmit(): void {
+    if (this.registerForm.invalid) return;
 
-    const user = new User({
-      username: this.form.value.username,
-      email: this.form.value.email,
-      password: this.form.value.password,
-      authorities: [{ authority: 'ROLE_PROFESSOR' }]
-    });
-
-    const professor = new Professor({
-      user: user,
-      department: this.form.value.department
-    });
-
-    this.professorService.createResource({ body: professor }).subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: err => this.errorMessage = 'Error registering professor: ' + err.message
+    this.authService.registerProfessor(this.registerForm.value).subscribe({
+      next: () => {
+        this.successMessage = 'Registro exitoso. Redirigiendo...';
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        this.errorMessage = err.error?.message || 'No se pudo completar el registro.';
+      }
     });
   }
 
-  getTouched(name: string): boolean {
-    const control = this.form.get(name);
-    return !!(control && control.touched);
+  isTouchedAndInvalid(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return !!(control?.invalid && (control?.touched || control?.dirty));
   }
 
-  getInvalid(name: string): boolean {
-    const control = this.form.get(name);
-    return !!(control && control.invalid);
-  }
 }
