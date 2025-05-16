@@ -1,88 +1,83 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
-  <h2>Register Organisation</h2>
-
-  <div class="form-group">
-    <label for="name">Name <span>*</span></label>
-    <input id="name" formControlName="name" required placeholder="Enter organisation name" />
+<h2>Register Organisation</h2>
+<form (ngSubmit)="onSubmit()" #form="ngForm">
+  <div class="mb-3">
+    <label>id *</label>
+    <input id="id" name="id" class="form-control" [(ngModel)]="external.id" required />
   </div>
-
-  <div class="form-group">
-    <label for="description">Description</label>
-    <input id="description" formControlName="description" placeholder="Brief description" />
+  <div class="mb-3">
+    <label>Email *</label>
+    <input id="email" name="email" type="email" class="form-control" [(ngModel)]="external.email" required />
   </div>
-
-  <div class="form-group">
-    <label for="website">Website</label>
-    <input id="website" formControlName="website" placeholder="https://example.com" />
+  <div class="mb-3">
+    <label>Password *</label>
+    <input id="password" name="password" type="password" class="form-control" [(ngModel)]="external.password" required />
   </div>
-
-  <div class="form-group">
-    <label   for="username">Username <span>*</span></label>
-    <input id="username" formControlName="username" required placeholder="Choose a username" />
+  <div class="mb-3">
+    <label>First Name *</label>
+    <input id="name" name="name" class="form-control" [(ngModel)]="external.name" required />
   </div>
-
-  <div class="form-group">
-    <label for="email">Email <span>*</span></label>
-    <input id="email" type="email" formControlName="email" required placeholder="you@example.com" />
-    <div *ngIf="isTouchedAndInvalid('email')" class="invalid-feedback">
-      An e-mail is required
+  <div class="mb-3">
+    <label>Last Name *</label>
+    <input id="surname" name="surname" class="form-control" [(ngModel)]="external.surname" required />
+  </div>
+  <div class="mb-3">
+    <label>Position *</label>
+    <input id="position" name="position" class="form-control" [(ngModel)]="external.position" required />
+  </div>
+  <div class="mb-3">
+    <label>Organization *</label>
+    <input id="organization" name="organization" class="form-control" [(ngModel)]="external.organization" required />
+  </div>
+  <div class="mb-3">
+    <label>Address *</label>
+    <input id="address" name="address" class="form-control" [(ngModel)]="external.address" required />
+  </div>
+  <div class="mb-3">
+    <label>Municipality *</label>
+    <input id="municipality" name="municipality" class="form-control" [(ngModel)]="external.municipality" required />
+  </div>
+  <div class="mb-3">
+    <label>Postal Code *</label>
+    <input id="postalCode" name="postalCode" class="form-control" [(ngModel)]="external.postalCode" required />
+  </div>
+  <div class="mb-3">
+    <label>Phone Number *</label>
+    <input id="phoneNumber" name="phoneNumber" class="form-control" [(ngModel)]="external.phoneNumber" required pattern="^[0-9]{9}$" #phone="ngModel" />
+    <div *ngIf="phone.invalid && phone.touched" class="invalid-feedback d-block">
+      The phone number must contain exactly 9 digits
     </div>
+
   </div>
 
-  <div class="form-group">
-    <label for="password">Password <span>*</span></label>
-    <input id="password" type="password" formControlName="password" required placeholder="Create a password" />
+  <div class="mt-3">
+    <button id="submit-button" type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+    <button id="cancel-button" type="button" class="btn btn-secondary" (click)="onCancel()">Back</button>
   </div>
 
-  <button type="submit" class="btn-submit" data-cy="submit" [disabled]="registerForm.invalid">Register Organisation</button>
-
-  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-   <!-- Este bloque sólo aparece tras éxito y contiene el username -->
-    <div  id="currentUser">
-      {{ registerForm.value.username }}
-    </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
 </form>
+
 
 
 <style>
   .form-container {
-    max-width: 400px;
+    max-width: 360px;
     margin: 2rem auto;
-    padding: 2rem;
+    padding: 1.5rem;
     background: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-  }
-
-  .form-group {
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.25rem;
-  }
-
-  label {
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    color: #34495e;
-  }
-
-  label span {
-    color: #e74c3c;
+    gap: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
   input {
     padding: 0.5rem 0.75rem;
+    font-size: 1rem;
     border: 1.5px solid #ccc;
     border-radius: 6px;
-    font-size: 1rem;
     transition: border-color 0.3s ease;
   }
 
@@ -93,11 +88,10 @@
   }
 
   .btn-submit {
-    width: 100%;
     padding: 0.75rem;
     background-color: #3498db;
     color: white;
-    font-weight: 700;
+    font-weight: 600;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -105,15 +99,9 @@
     transition: background-color 0.3s ease;
   }
 
-  .btn-submit:hover {
-    background-color: #2980b9;
-  }
-
-  .error-message {
-    margin-top: 1rem;
-    color: #e74c3c;
-    font-weight: 600;
-    text-align: center;
+  .btn-submit:disabled {
+    background-color: #a0c4db;
+    cursor: not-allowed;
   }
 
   .success-message {
@@ -123,4 +111,10 @@
     text-align: center;
   }
 
+  .error-message {
+    margin-top: 1rem;
+    color: #e74c3c;
+    font-weight: 600;
+    text-align: center;
+  }
 </style>

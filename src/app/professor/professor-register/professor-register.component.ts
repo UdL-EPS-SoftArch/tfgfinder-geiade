@@ -1,51 +1,53 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location, NgIf } from '@angular/common';
 import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
-import {NgIf} from "@angular/common";
+import { Professor } from '../professor';
+import { FormsModule } from "@angular/forms";
+import { ProfessorService } from '../professor.service';
 
 @Component({
   selector: 'app-professor-register',
-  imports: [
-    ReactiveFormsModule,
-    NgIf
-  ],
+  standalone: true,
+  imports: [FormsModule, NgIf],
   templateUrl: './professor-register.component.html'
 })
-export class ProfessorRegisterComponent {
-  registerForm: FormGroup;
-  successMessage: string = '';
-  errorMessage: string = '';
+export class ProfessorRegisterComponent implements OnInit {
+  professor: Professor = new Professor();
+  errorMessage = '';
+  successMessage = '';
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthenticationBasicService,
-    private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
-    });
+    private router: Router,
+    private location: Location,
+    private professorService: ProfessorService,
+    private authenticationService: AuthenticationBasicService
+  ) {}
+
+  ngOnInit(): void {
+    this.professor = new Professor();
   }
 
   onSubmit(): void {
-    if (this.registerForm.invalid) return;
+    this.professor.dtype = 'Professor';
 
-    this.authService.registerProfessor(this.registerForm.value).subscribe({
+    this.professorService.createResource({ body: this.professor }).subscribe({
       next: () => {
-        this.successMessage = 'Registro exitoso. Redirigiendo...';
-        this.router.navigate(['/']);
+        this.authenticationService.login(this.professor.id, this.professor.password).subscribe({
+          next: (user) => {
+            setTimeout(() => {
+              this.router.navigate(['/about']);
+            }, 0);
+          },
+          error: () => this.errorMessage = 'No se pudo iniciar sesión tras el registro.'
+        });
       },
-      error: err => {
-        this.errorMessage = err.error?.message || 'No se pudo completar el registro.';
-      }
+      error: () => this.errorMessage = 'No se pudo completar el registro.'
     });
   }
 
-  isTouchedAndInvalid(field: string): boolean {
-    const control = this.registerForm.get(field);
-    return !!(control?.invalid && (control?.touched || control?.dirty));
-  }
 
+  onCancel(): void {
+    this.location.back();
+  }
 }

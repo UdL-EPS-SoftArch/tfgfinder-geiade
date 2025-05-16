@@ -30,7 +30,7 @@ jobs:
         if: success() && github.ref == 'refs/heads/main'
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          id: ${{ secrets.DOCKERHUB_id }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push to Docker Hub
         if: success() && github.ref == 'refs/heads/main'

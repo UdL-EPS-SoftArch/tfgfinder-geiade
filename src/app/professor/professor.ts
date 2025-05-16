@@ -1,13 +1,14 @@
-import { HateoasResource, Resource } from '@lagoshny/ngx-hateoas-client';
 import { User } from '../login-basic/user';
+import { HateoasResource } from '@lagoshny/ngx-hateoas-client';
 
 @HateoasResource('professors')
-export class Professor extends Resource {
-  user: User;
-  department?: string;
-
-  constructor(values: object = {}) {
-    super();
-    Object.assign(this as any, values);
-  }
+export class Professor extends User {
+  id: string;
+  email: string;
+  password: string;
+  name: string;
+  surname: string;
+  faculty: string;
+  department: string;
+  dtype = 'Professor';
 }

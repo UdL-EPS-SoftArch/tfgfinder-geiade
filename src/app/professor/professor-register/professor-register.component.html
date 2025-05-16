@@ -1,33 +1,43 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
-  <h2>Register Professor</h2>
-
-  <div class="form-group">
-    <label  for="username">Username <span>*</span></label>
-    <input id="username" formControlName="username" required placeholder="Choose a username" />
+<h2>Register Professor</h2>
+<form (ngSubmit)="onSubmit()" #form="ngForm">
+  <div class="mb-3">
+    <label>id *</label>
+    <input id="id" name="id" class="form-control" [(ngModel)]="professor.id" required />
+  </div>
+  <div class="mb-3">
+    <label>Email *</label>
+    <input id="email" name="email" type="email" class="form-control" [(ngModel)]="professor.email" required />
+  </div>
+  <div class="mb-3">
+    <label>Password *</label>
+    <input id="password" name="password" type="password" class="form-control" [(ngModel)]="professor.password" required />
+  </div>
+  <div class="mb-3">
+    <label>First Name *</label>
+    <input id="name" name="name" class="form-control" [(ngModel)]="professor.name" required />
+  </div>
+  <div class="mb-3">
+    <label>Last Name *</label>
+    <input id="surname" name="surname" class="form-control" [(ngModel)]="professor.surname" required />
+  </div>
+  <div class="mb-3">
+    <label>Faculty *</label>
+    <input id="faculty" name="faculty" class="form-control" [(ngModel)]="professor.faculty" required />
+  </div>
+  <div class="mb-3">
+    <label>Department *</label>
+    <input id="department" name="department" class="form-control" [(ngModel)]="professor.department" required />
   </div>
 
-  <div class="form-group">
-    <label for="email">Email <span>*</span></label>
-    <input id="email" type="email" formControlName="email" required placeholder="you@example.com" />
-    <div *ngIf="isTouchedAndInvalid('email')" class="invalid-feedback">
-      An e-mail is required
-    </div>
+  <div class="mt-3">
+    <button id="submit-button" type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+    <button id="cancel-button" type="button" class="btn btn-secondary" (click)="onCancel()">Back</button>
   </div>
 
-  <div class="form-group">
-    <label for="password">Password <span>*</span></label>
-    <input id="password" type="password" formControlName="password" required placeholder="Create a password" />
-  </div>
-
-  <button type="submit" class="btn-submit" data-cy="submit" [disabled]="registerForm.invalid">Register Professor</button>
-
-  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-  <!-- Aquí mostramos el usuario autenticado -->
-  <div  id="currentUser">
-    {{ registerForm.value.username }}
-  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
 </form>
+
+
 
 
 

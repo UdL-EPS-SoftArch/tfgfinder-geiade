@@ -1,55 +1,55 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location, NgIf } from '@angular/common';
 import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
-import {NgIf} from "@angular/common";
+import { User } from '../../login-basic/user';
+import { Student } from '../student'
+import { FormsModule } from "@angular/forms";
+import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-student-register',
   imports: [
-    ReactiveFormsModule,
+    FormsModule,
     NgIf
   ],
   templateUrl: './student-register.component.html'
 })
-export class StudentRegisterComponent {
-  registerForm: FormGroup;
-  successMessage: string = '';
-  errorMessage: string = '';
+export class StudentRegisterComponent implements OnInit {
+  public student: Student = new Student();
+  errorMessage = '';
+  successMessage = '';
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthenticationBasicService,
-    private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
-    });
+    private router: Router,
+    private location: Location,
+    private studentService: StudentService,
+    private authenticationService: AuthenticationBasicService
+  ) {}
+
+  ngOnInit(): void {
+    this.student = new Student();
   }
 
   onSubmit(): void {
-    if (this.registerForm.invalid) return;
-
-    this.authService.registerStudent(this.registerForm.value).subscribe({
+    this.student.dtype = 'Student';
+    this.studentService.createResource({ body: this.student }).subscribe({
       next: () => {
-        this.successMessage = '¡Registro exitoso!';
-        this.errorMessage = '';
+        this.authenticationService.login(this.student.id, this.student.password).subscribe({
+          next: (user: User) => {
+            setTimeout(() => {
+              this.router.navigate(['users', user.id]);
+            }, 0);
+          },
+          error: () => this.errorMessage = 'No se pudo iniciar sesión tras el registro.'
+        });
       },
-      error: (err) => {
-        console.error('Error en el registro:', err); // 👈 Añade esto
-        this.successMessage = '';
-        this.errorMessage = 'No se pudo completar el registro.';
-      }
+      error: () => this.errorMessage = 'No se pudo completar el registro.'
     });
-
-  }
-
-  isTouchedAndInvalid(controlName: string): boolean {
-    const control = this.registerForm.get(controlName);
-    return control?.touched && control.invalid;
   }
 
 
+  onCancel(): void {
+    this.location.back();
+  }
 }

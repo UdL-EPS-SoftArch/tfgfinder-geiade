@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Student } from './student';
 import { HateoasResourceOperation } from '@lagoshny/ngx-hateoas-client';
+import { External } from './external';
 
 @Injectable({ providedIn: 'root' })
-export class StudentService extends HateoasResourceOperation<Student> {
+export class ExternalService extends HateoasResourceOperation<External> {
   constructor() {
-    super(Student);
+    super(External);
   }
 }

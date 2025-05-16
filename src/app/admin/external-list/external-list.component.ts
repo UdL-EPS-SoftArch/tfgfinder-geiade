@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExternalService } from '../../external/external-service';
+import { ExternalService } from '../../external/external.service';
 import { External } from '../../external/external';
 
 @Component({

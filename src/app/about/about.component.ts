@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {AuthenticationBasicService} from '../login-basic/authentication-basic.service';
+import {User} from "../login-basic/user";
 
 @Component({
     selector: 'app-about',
@@ -7,6 +9,9 @@ import {Component} from '@angular/core';
 })
 export class AboutComponent {
 
-  constructor() { }
+  constructor(public authService: AuthenticationBasicService) { }
+  getCurrentUser(): User {
+    return this.authService.getCurrentUser();
+  }
 
 }

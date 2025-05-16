@@ -9,26 +9,37 @@ Given("I'm not logged in", () => {
   cy.get('.nav-link').contains('Login');
 });
 
-Given("I log in as {string} with password {string}", (username, password) => {
+Given("I log in as {string} with password {string}", (id, password) => {
   cy.get('.nav-link').contains('Login').click();
-  cy.get('#username').type(username).blur();
+  cy.get('#id').type(id).blur();
   cy.get('#password').type(password).blur();
-  cy.get('[data-cy=submit]').click();
+  cy.get('button').contains('Submit').click();
 });
 
-Given("I click the {string} menu", (option) => {
-  cy.get('.nav-link').contains(option).click();
+// === Navegar a las páginas de registro según tipo ===
+
+Given("I go to the student registration page", () => {
+  cy.visit('http://localhost:4200/register-student');
 });
 
-When("I select {string} from the registration type options", (type: string) => {
-  cy.contains('button', new RegExp(type, 'i')).click();
+Given("I go to the professor registration page", () => {
+  cy.visit('http://localhost:4200/register-professor');
 });
+
+Given("I go to the external registration page", () => {
+  cy.visit('http://localhost:4200/register-organisation');
+});
+
+Given("I go to the organisation registration page", () => {
+  cy.visit('http://localhost:4200/register-organisation');
+});
+
+// === Rellenar formularios dinámicamente ===
 
 When("I fill the form with", (table: DataTable) => {
-  table.rows().forEach((row: string[]) => {
-    const field = row[0];
-    const value = row[1];
-    cy.get('#' + field.toLowerCase(), { timeout: 10000 })
+  table.rows().forEach(([field, value]) => {
+    const selector = `[name="${field}"], #${field}`; // Cubrir tanto name como id
+    cy.get(selector, { timeout: 10000 })
       .should('be.visible')
       .clear()
       .type(value)
@@ -36,25 +47,34 @@ When("I fill the form with", (table: DataTable) => {
   });
 });
 
-When("I click the {string} button", (_label) => {
-  cy.get('[data-cy=submit]').click();
+When("I click the {string} button", (label) => {
+  const id = label.toLowerCase() === 'register' || label.toLowerCase() === 'submit'
+    ? '#submit-button'
+    : '#cancel-button';
+  cy.get(id, { timeout: 10000 }).should('be.visible').click();
 });
 
-Then("I'm logged in as user {string}", (username) => {
-  cy.get('#currentUser', { timeout: 5000 })
-    .should('be.visible')
-    .invoke('text')
-    .should('contain', username);
+
+// === Validaciones de login y mensajes ===
+
+Then("I'm logged in as user {string}", (id) => {
+  cy.get('body', { timeout: 10000 })
+    .should('have.attr', 'data-current-user')
+    .and('eq', id);
 });
+
+
 
 Then("I see error message {string}", (message) => {
   cy.get('.alert')
+    .should('be.visible')
     .invoke('text')
     .should('contains', message);
 });
 
-Then("The {string} button is disabled", (_label) => {
-  cy.get('[data-cy=submit]').should('be.disabled')
+Then("The {string} button is disabled", (label) => {
+  cy.get('button').contains(label, { timeout: 5000 })
+    .should('be.disabled');
 });
 
 Then("The {string} menu is not present", (option) => {
@@ -67,9 +87,4 @@ Then("I see input field feedback message {string}", (message) => {
     .should('be.visible')
     .invoke('text')
     .should('contains', message);
-});
-
-Then("I see the login page", () => {
-  cy.url().should('include', '/register-organisation');
-  cy.contains('Login');
 });

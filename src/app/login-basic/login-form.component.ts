@@ -23,7 +23,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.authenticationService.login(this.user.username, this.user.password)
+    this.authenticationService.login(this.user.id, this.user.password)
       .subscribe(() => this.router.navigateByUrl(''));
   }
 

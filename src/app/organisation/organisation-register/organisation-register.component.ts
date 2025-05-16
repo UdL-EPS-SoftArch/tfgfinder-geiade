@@ -1,54 +1,53 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location, NgIf } from '@angular/common';
 import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
-import {NgIf} from "@angular/common";
+import { External } from '../../external/external';
+import { FormsModule } from "@angular/forms";
+import { ExternalService } from '../../external/external.service';
 
 @Component({
   selector: 'app-organisation-register',
-  imports: [
-    ReactiveFormsModule,
-    NgIf
-  ],
+  standalone: true,
+  imports: [FormsModule, NgIf],
   templateUrl: './organisation-register.component.html'
 })
-export class OrganisationRegisterComponent {
-  registerForm: FormGroup;
-  successMessage: string = '';
-  errorMessage: string = '';
+export class OrganisationRegisterComponent implements OnInit {
+  external: External = new External();
+  errorMessage = '';
+  successMessage = '';
 
   constructor(
-    private fb: FormBuilder,
-    private auth: AuthenticationBasicService,
-    private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      description: [''],
-      website: [''],
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
-    });
+    private router: Router,
+    private location: Location,
+    private externalService: ExternalService,
+    private authenticationService: AuthenticationBasicService
+  ) {}
+
+  ngOnInit(): void {
+    this.external = new External();
   }
 
   onSubmit(): void {
-    if (this.registerForm.invalid) return;
-    this.auth.registerOrganisation(this.registerForm.value).subscribe({
+    this.external.dtype = 'Organisation';
+
+    this.externalService.createResource({ body: this.external }).subscribe({
       next: () => {
-        this.successMessage = 'Registro enviado. Tu organización será validada por un administrador. Recibirás un email en menos de 24 horas.';
-        setTimeout(() => this.router.navigate(['/login']), 3000);
-        this.registerForm.reset();
+        this.authenticationService.login(this.external.id, this.external.password).subscribe({
+          next: (user) => {
+            setTimeout(() => {
+              this.router.navigate(['/about']);
+            }, 0);
+          },
+          error: () => this.errorMessage = 'No se pudo iniciar sesión tras el registro.'
+        });
       },
-      error: (err) => {
-        this.errorMessage = err.error.message || 'No se pudo completar el registro.';
-      }
+      error: () => this.errorMessage = 'No se pudo completar el registro.'
     });
   }
-  isTouchedAndInvalid(field: string): boolean {
-    const control = this.registerForm.get(field);
-    return !!(control?.invalid && (control?.touched || control?.dirty));
+
+
+  onCancel(): void {
+    this.location.back();
   }
-
-
 }

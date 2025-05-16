@@ -24,7 +24,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 this.errorMessageService.showErrorMessage('There was an error connecting to Server');
                 break;
               case 401:
-                this.errorMessageService.showErrorMessage('Username or password incorrect');
+                this.errorMessageService.showErrorMessage('id or password incorrect');
                 break;
               case 404:
                 break;

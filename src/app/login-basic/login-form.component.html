@@ -4,20 +4,22 @@
 <form id="login-form" (ngSubmit)="onSubmit()" #form="ngForm" novalidate>
   <fieldset>
 
-    <!-- Username input -->
-    <div class="form-group mb-3" [class.was-validated]="username.dirty || username.touched">
-      <label class="control-label" for="username">Username*</label>
-      <input id="username"
+    <!-- id input -->
+    <div class="form-group mb-3" [class.was-validated]="id.dirty || id.touched">
+      <label class="control-label" for="id">id*</label>
+      <input id="id"
              type="text"
-             name="username"
+             name="id"
              class="form-control"
-             #username="ngModel" [(ngModel)]="user.username"
+             #id="ngModel"
+             [(ngModel)]="user.id"
              required>
       <div class="text-danger"
-           *ngIf="username.invalid && (username.dirty || username.touched)">
-        A username is required
+           *ngIf="id.invalid && (id.dirty || id.touched)">
+        A id is required
       </div>
     </div>
+
 
 
     <!-- Password input -->

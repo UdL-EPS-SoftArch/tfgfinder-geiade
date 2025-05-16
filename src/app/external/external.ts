@@ -1,16 +1,19 @@
-import { HateoasResource, Resource } from '@lagoshny/ngx-hateoas-client';
+import {HateoasResource} from '@lagoshny/ngx-hateoas-client';
 import { User } from '../login-basic/user';
 
 @HateoasResource('externals')
-export class External extends Resource {
+export class External extends User {
+  id: string;
+  email: string;
+  password: string;
   name: string;
-  description?: string;
-  website?: string;
-  status: string = 'pending'; // o "requested"
-  user: User;
-
-  constructor(values: object = {}) {
-    super();
-    Object.assign(this as any, values);
-  }
+  surname: string;
+  position: string;
+  organization: string;
+  address: string;
+  municipality: string;
+  postalCode: string;
+  phoneNumber: string;
+  dtype = 'Organisation';
+  status: string = 'pending';
 }
