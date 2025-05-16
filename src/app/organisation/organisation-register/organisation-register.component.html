@@ -41,6 +41,10 @@
 
   <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
   <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  +  <!-- Este bloque sólo aparece tras éxito y contiene el username -->
+  +  <div  id="currentUser">
+  +    {{ registerForm.value.username }}
+  +  </div>
 </form>
 
 
