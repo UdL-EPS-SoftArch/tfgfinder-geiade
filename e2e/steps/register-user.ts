@@ -13,7 +13,7 @@ Given("I log in as {string} with password {string}", (username, password) => {
   cy.get('.nav-link').contains('Login').click();
   cy.get('#username').type(username).blur();
   cy.get('#password').type(password).blur();
-  cy.get('button').contains('Submit').click();
+  cy.get('button').contains('Register').click();
 });
 
 Given("I click the {string} menu", (option) => {
