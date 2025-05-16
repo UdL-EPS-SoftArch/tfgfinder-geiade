@@ -4,12 +4,13 @@ import { CategoryService } from "../category.service";
 import { PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
 import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
 import {NgForOf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 
 @Component({
   selector: 'app-category-list',
   imports: [
-    NgbPagination, NgForOf
+    NgbPagination, NgForOf, RouterLink
   ],
   templateUrl: './category-list.component.html'
 })

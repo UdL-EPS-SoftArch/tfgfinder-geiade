@@ -4,7 +4,8 @@
     <div class="card-body row align-items-center">
       <div class="col-6 mt-1">
         <h6 class="card-subtitle text-muted">Category Name</h6>
-        <p class="card-text">{{category.name}}</p>
+        <a class="card-text" [routerLink]="['/categories', category.name]">{{category.name}}</a>
+<!--        <p class="card-text">{{category.name}}</p>-->
       </div>
       <div class="col-6 mt-1">
         <h6 class="card-subtitle text-muted">Description</h6>

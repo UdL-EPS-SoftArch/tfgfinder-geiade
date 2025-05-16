@@ -9,6 +9,7 @@ import { UserRegisterComponent } from './user/user-register/user-register.compon
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserDeleteComponent } from './user/user-delete/user-delete.component';
 import {CategoryListComponent} from "./category/category-list/category-list.component";
+import {CategoryDetailComponent} from "./category/category-detail/category-detail.component";
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: '404', component: NotFoundComponent},
   { path: '', redirectTo: 'about', pathMatch: 'full'},
   { path: 'categories', component: CategoryListComponent},
+  { path: 'categories/:name', component: CategoryDetailComponent},
 ];
 
 @NgModule({
