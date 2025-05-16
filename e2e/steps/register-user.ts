@@ -67,6 +67,6 @@ Then("I see input field feedback message {string}", (message) => {
 });
 
 Then("I see the login page", () => {
-  cy.url().should('include', '/login');
+  cy.url().should('include', '/register-organisation');
   cy.contains('Login');
 });
