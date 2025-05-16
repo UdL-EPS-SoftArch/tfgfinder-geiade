@@ -13,7 +13,7 @@ Given("I log in as {string} with password {string}", (username, password) => {
   cy.get('.nav-link').contains('Login').click();
   cy.get('#username').type(username).blur();
   cy.get('#password').type(password).blur();
-  cy.get('button').contains('Register').click();
+  cy.get('[data-cy=submit]').click();
 });
 
 Given("I click the {string} menu", (option) => {
@@ -28,18 +28,16 @@ When("I fill the form with", (table: DataTable) => {
   table.rows().forEach((row: string[]) => {
     const field = row[0];
     const value = row[1];
-    cy.get('#' + field.toLowerCase(), { timeout: 10000 }) // Espera hasta 10s
-      .should('be.visible') // Asegura visibilidad
+    cy.get('#' + field.toLowerCase(), { timeout: 10000 })
+      .should('be.visible')
       .clear()
       .type(value)
       .blur();
   });
 });
 
-
-
-When("I click the {string} button", (label) => {
-  cy.get('button').contains(label).click();
+When("I click the {string} button", (_label) => {
+  cy.get('[data-cy=submit]').click();
 });
 
 Then("I'm logged in as user {string}", (username) => {
@@ -54,9 +52,8 @@ Then("I see error message {string}", (message) => {
     .should('contains', message);
 });
 
-Then("The {string} button is disabled", (label) => {
-  cy.get('button').contains(label)
-    .should('be.disabled');
+Then("The {string} button is disabled", (_label) => {
+  cy.get('[data-cy=submit]').should('be.disabled');
 });
 
 Then("The {string} menu is not present", (option) => {
@@ -75,4 +72,3 @@ Then("I see the login page", () => {
   cy.url().should('include', '/login');
   cy.contains('Login');
 });
-

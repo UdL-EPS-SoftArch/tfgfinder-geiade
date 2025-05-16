@@ -17,8 +17,9 @@
 
   <input id="degree" formControlName="degree" placeholder="Degree (optional)" />
 
-  <button type="submit" [disabled]="form.invalid" class="btn-submit">Register</button>
+  <button type="submit" [disabled]="form.invalid" class="btn-submit" data-cy="submit" >Register</button>
 </form>
+
 
 <style>
   .form-container {

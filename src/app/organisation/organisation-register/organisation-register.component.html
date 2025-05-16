@@ -31,10 +31,11 @@
     <input id="password" type="password" formControlName="password" required placeholder="Create a password" />
   </div>
 
-  <button type="submit" class="btn-submit" data-cy="submit-btn">Register Organisation</button>
+  <button type="submit" class="btn-submit" data-cy="submit" [disabled]="registerForm.invalid" >Register Organisation</button>
 
   <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </form>
+
 
 <style>
   .form-container {
