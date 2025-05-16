@@ -46,9 +46,9 @@ export class StudentRegisterComponent {
 
   }
 
-  isTouchedAndInvalid(field: string): boolean {
-    const control = this.registerForm.get(field);
-    return !!(control?.invalid && (control?.touched || control?.dirty));
+  isTouchedAndInvalid(controlName: string): boolean {
+    const control = this.registerForm.get(controlName);
+    return control?.touched && control.invalid;
   }
 
 
