@@ -41,7 +41,10 @@ When("I click the {string} button", (_label) => {
 });
 
 Then("I'm logged in as user {string}", (username) => {
-  cy.get('#currentUser', { timeout: 5000 }).should('exist').invoke('text').should('contains', username);
+  cy.get('#currentUser', { timeout: 5000 })
+    .should('be.visible')
+    .invoke('text')
+    .should('contain', username);
 });
 
 Then("I see error message {string}", (message) => {

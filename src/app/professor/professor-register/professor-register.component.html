@@ -2,7 +2,7 @@
   <h2>Register Professor</h2>
 
   <div class="form-group">
-    <label id="currentUser" for="username">Username <span>*</span></label>
+    <label  for="username">Username <span>*</span></label>
     <input id="username" formControlName="username" required placeholder="Choose a username" />
   </div>
 
@@ -23,6 +23,10 @@
 
   <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
   <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  <!-- Aquí mostramos el usuario autenticado -->
+  <div *ngIf="successMessage" id="currentUser">
+    {{ registerForm.value.username }}
+  </div>
 </form>
 
 
