@@ -1,5 +1,6 @@
 import {HateoasResource, Resource} from "@lagoshny/ngx-hateoas-client";
 import {User} from "../login-basic/user";
+import {Category} from "../category/category";
 
 @HateoasResource('proposals')
 export class Proposal extends Resource{
@@ -11,7 +12,7 @@ export class Proposal extends Resource{
   kind: string;
   keywords: string[];
   user: User;
-  category: string[] = []; //TODO: Pending Category Implementation
+  category: Category;
 
   constructor(values: object = {}) {
     super();
