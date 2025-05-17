@@ -15,9 +15,9 @@
       <button id="listBtn" type="button" [routerLink]="['/categories']"
               class="btn m-1 btn-outline-primary">User List
       </button>
-      <!--<button id="editBtn" type="button" *ngIf="getCurrentUser().username === user.username" [routerLink]="['edit']"
+      <button id="editBtn" type="button"  [routerLink]="['/categories', category.name, 'edit']"
               class="btn m-1 btn-outline-success">Edit
-      </button> -->
+      </button>
       <button id="deleteBtn"
               type="button"
               [routerLink]="['/categories', category.name, 'delete']"
