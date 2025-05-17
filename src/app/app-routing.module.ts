@@ -33,6 +33,7 @@ const routes: Routes = [
   { path: 'proposals', component: ProposalListComponent},
   { path: 'proposals/create', component: ProposalCreateComponent, canActivate: [LoggedInGuard]},
   { path: 'proposals/:id/detail', component: ProposalDetailComponent, canActivate: [LoggedInGuard]},
+  { path: 'proposals/:id/edit', component: ProposalCreateComponent, canActivate: [LoggedInGuard]},
   { path: 'users/create', component: UserRegisterComponent},
   { path: 'users/:id/delete', component: UserDeleteComponent, canActivate: [LoggedInGuard]},
   { path: 'users/:id/edit', component: UserEditComponent, canActivate: [LoggedInGuard]},
