@@ -12,6 +12,10 @@ import {InviteCreateComponent} from "./invite/invite-create/invite-create.compon
 import {InviteListComponent} from "./invite/invite-list/invite-list.component";
 import {InviteDeleteComponent} from "./invite/invite-delete/invite-delete.component";
 import {InviteDetailComponent} from "./invite/invite-detail/invite-detail.component";
+import {AgreeCreateComponent} from "./agree/agree-create/agree-create.component";
+import {AgreeListComponent} from "./agree/agree-list/agree-list.component";
+import {AgreeDeleteComponent} from "./agree/agree-delete/agree-delete.component";
+import {AgreeDetailComponent} from "./agree/agree-detail/agree-detail.component";
 
 const routes: Routes = [
   { path: 'users/create', component: UserRegisterComponent},
@@ -27,6 +31,11 @@ const routes: Routes = [
   { path: 'invite/:id/detail', component: InviteDetailComponent, canActivate: [LoggedInGuard]},
   { path: 'invite/:id/delete', component: InviteDeleteComponent, canActivate: [LoggedInGuard] },
   { path: 'invite/myInvites', component: InviteListComponent},
+
+  { path: 'agree/create', component: AgreeCreateComponent},
+  { path: 'agree/:id/detail', component: AgreeDetailComponent, canActivate: [LoggedInGuard]},
+  { path: 'agree/:id/delete', component: AgreeDeleteComponent, canActivate: [LoggedInGuard] },
+  { path: 'agree/myAgrees', component: AgreeListComponent},
 ];
 
 @NgModule({

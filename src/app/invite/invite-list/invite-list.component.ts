@@ -33,7 +33,7 @@ export class InviteListComponent implements OnInit{
       (page: PagedResourceCollection<Invite>) => {
         console.log("Invites loaded:", page.resources); // <-- Verifica el contenido aquí
         this.invites = page.resources;
-
+        
         for (const invite of this.invites) {
           const href = (invite as any)._links?.self?.href;
           const idStr = href?.split('/').pop();

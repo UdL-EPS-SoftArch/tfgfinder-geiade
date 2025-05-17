@@ -10,7 +10,7 @@ export class InviteService extends HateoasResourceOperation<Invite> {
     super(Invite);
   }
 
-  public findByTitle(query: string): Observable<ResourceCollection<Invite>> {
+  public findByIdContaining(query: string): Observable<ResourceCollection<Invite>> {
     return this.searchCollection('findByTitle', {params: {text: query}});
   }
 
