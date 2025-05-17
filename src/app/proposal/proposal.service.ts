@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
-import { HateoasResourceOperation, ResourceCollection, PagedResourceCollection } from '@lagoshny/ngx-hateoas-client';
+import {catchError, map} from 'rxjs/operators';
+import { HateoasResourceOperation, ResourceCollection } from '@lagoshny/ngx-hateoas-client';
 
 import { Proposal } from './proposal';
 import { Category } from '../category/category';
