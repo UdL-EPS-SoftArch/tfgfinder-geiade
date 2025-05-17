@@ -1,3 +1,9 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Categories</h4>
+  <a routerLink="/categories/create" class="btn btn-primary">
+    + Add Category
+  </a>
+</div>
 
 <div class="card mb-1" *ngFor="let category of categories">
   <div class="card-block row m-1 col-12">
@@ -5,7 +11,6 @@
       <div class="col-6 mt-1">
         <h6 class="card-subtitle text-muted">Category Name</h6>
         <a class="card-text" [routerLink]="['/categories', category.name]">{{category.name}}</a>
-<!--        <p class="card-text">{{category.name}}</p>-->
       </div>
       <div class="col-6 mt-1">
         <h6 class="card-subtitle text-muted">Description</h6>
