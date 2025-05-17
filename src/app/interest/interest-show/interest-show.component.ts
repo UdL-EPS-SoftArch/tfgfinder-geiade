@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-interest-show',
   templateUrl: './interest-show.component.html',
+  styleUrls: ['./interest-show.component.css'],
   standalone: true,
   imports: [
     CommonModule, 
@@ -37,7 +38,7 @@ export class InterestShowComponent implements OnInit {
   ngOnInit(): void {
     this.getInterests();
   }
-  
+
 
   /**
    * 
