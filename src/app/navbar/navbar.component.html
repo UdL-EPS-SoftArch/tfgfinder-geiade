@@ -20,6 +20,12 @@
       </li>
 
     </ul>
+    <li class="nav-item" *ngIf="isLoggedIn()" id="currentUser">
+      <a class="nav-link" [routerLink]="['/users', getCurrentUser().id]">
+        <span class="fas fa-user-circle"></span> {{getCurrentUser().id}}
+      </a>
+    </li>
+
     <ul class="navbar-nav ms-auto me-3" app-login-navbar></ul>
   </div>
 </nav>

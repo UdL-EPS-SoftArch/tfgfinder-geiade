@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { NgbCollapse, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
 import { LoginNavbarComponent } from '../login-basic/login-navbar.component';
+import {User} from "../login-basic/user";
 
 @Component({
   imports: [RouterModule, NgbCollapse, NgbDropdownModule, NgIf, LoginNavbarComponent],
@@ -27,5 +28,12 @@ export class NavbarComponent implements OnInit {
 
   isRole(role: string): boolean {
     return this.authService.isRole(role);
+  }
+  getCurrentUser(): User {
+    return this.authService.getCurrentUser();
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }

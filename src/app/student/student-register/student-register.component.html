@@ -24,7 +24,9 @@
     <label>DNI *</label>
     <input
       class="form-control"
+      [class.is-invalid]="dniModel.invalid && dniModel.touched"
       name="dni"
+      id="dni"
       pattern="^[0-9]{8}[A-Za-z]$"
       required
       [(ngModel)]="student.dni"

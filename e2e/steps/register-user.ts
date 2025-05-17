@@ -9,15 +9,6 @@ Given("I'm not logged in", () => {
   cy.get('.nav-link').contains('Login');
 });
 
-Given("I log in as {string} with password {string}", (id, password) => {
-  cy.get('.nav-link').contains('Login').click();
-  cy.get('#id').type(id).blur();
-  cy.get('#password').type(password).blur();
-  cy.get('button').contains('Submit').click();
-});
-
-// === Navegar a las páginas de registro según tipo ===
-
 Given("I go to the student registration page", () => {
   cy.visit('http://localhost:4200/register-student');
 });
@@ -34,11 +25,9 @@ Given("I go to the organisation registration page", () => {
   cy.visit('http://localhost:4200/register-organisation');
 });
 
-// === Rellenar formularios dinámicamente ===
-
 When("I fill the form with", (table: DataTable) => {
   table.rows().forEach(([field, value]) => {
-    const selector = `[name="${field}"], #${field}`; // Cubrir tanto name como id
+    const selector = `[name="${field}"], #${field}`;
     cy.get(selector, { timeout: 10000 })
       .should('be.visible')
       .clear()
@@ -54,29 +43,11 @@ When("I click the {string} button", (label) => {
   cy.get(id, { timeout: 10000 }).should('be.visible').click();
 });
 
-
-// === Validaciones de login y mensajes ===
-/*
-Then("I'm logged in as user {string}", (id) => {
-  cy.get('#currentUser a.nav-link', { timeout: 10000 })
-    .should('be.visible')
-    .and('contain.text', id);
+// ✅ MODIFICADO: espera explícitamente a la URL y luego busca el usuario en el listado
+Then("I see user {string} in the user list", (username) => {
+  cy.url({ timeout: 10000 }).should('include', '/users');
+  cy.get('a.card-text', { timeout: 10000 }).contains(username).should('be.visible');
 });
-*/
-
-Then("I'm logged in as user {string}", (id) => {
-  cy.window().then((win) => {
-    const storedUser = win.localStorage.getItem('currentUser');
-    if (!storedUser) {
-      throw new Error('No currentUser found in localStorage');
-    }
-    const user = JSON.parse(storedUser);
-    expect(user.id).to.equal(id);
-  });
-});
-
-
-
 
 Then("I see error message {string}", (message) => {
   cy.get('.alert')
@@ -96,13 +67,7 @@ Then("The {string} menu is not present", (option) => {
 });
 
 Then("I see input field feedback message {string}", (message) => {
-  cy.get('.invalid-feedback')
+  cy.get('.invalid-feedback', { timeout: 5000 })
     .should('be.visible')
-    .invoke('text')
-    .should('contains', message);
+    .and('contain.text', message);
 });
-
-Then("I'm redirected to the About page", () => {
-  cy.url().should('include', '/about');
-});
-

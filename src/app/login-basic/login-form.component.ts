@@ -27,7 +27,7 @@ export class LoginFormComponent implements OnInit {
     this.authenticationService.login(this.user.id, this.user.password).subscribe({
       next: (user: User) => {
         if (user) {
-          this.router.navigate(['/about']);
+          this.router.navigate(['/users']);
         } else {
           this.errorMessage = 'No se pudo guardar el usuario tras el login.';
         }

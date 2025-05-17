@@ -37,7 +37,7 @@ export class OrganisationRegisterComponent implements OnInit {
         this.authenticationService.login(this.external.id, this.external.password).subscribe({
           next: (user: User) => {
             if (user) {
-              this.router.navigate(['/about']);
+              this.router.navigate(['/users']);
             } else {
               this.errorMessage = 'No se pudo guardar el usuario tras el login.';
             }

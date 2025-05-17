@@ -8,7 +8,6 @@ Feature: Register all user types
     And I'm not logged in
 
   # --- STUDENT ---
-
   Scenario: Register new student successfully
     Given I go to the student registration page
     When I fill the form with
@@ -25,7 +24,7 @@ Feature: Register all user types
       | phoneNumber  | 123456789         |
       | degree       | Informatics       |
     And I click the "Submit" button
-    Then I'm logged in as user "student1"
+    Then I see user "student1" in the user list
 
   Scenario: Register student with invalid DNI
     Given I go to the student registration page
@@ -46,7 +45,6 @@ Feature: Register all user types
     And I see input field feedback message "The DNI must have 8 digits followed by a letter"
 
   # --- PROFESSOR ---
-
   Scenario: Register new professor successfully
     Given I go to the professor registration page
     When I fill the form with
@@ -59,7 +57,7 @@ Feature: Register all user types
       | faculty    | EPS               |
       | department | IT                |
     And I click the "Submit" button
-    Then I'm logged in as user "prof1"
+    Then I see user "prof1" in the user list
 
   Scenario: Register professor with missing department
     Given I go to the professor registration page
@@ -74,8 +72,6 @@ Feature: Register all user types
     Then The "Submit" button is disabled
 
   # --- EXTERNAL / ORGANISATION ---
-# Cambiar "company" → "organization", "contact" → "email", "phone" → "phoneNumber"
-
   Scenario: Register new external user successfully
     Given I go to the external registration page
     When I fill the form with
@@ -92,9 +88,7 @@ Feature: Register all user types
       | postalCode   | 25001              |
       | phoneNumber  | 987654321          |
     And I click the "Submit" button
-    Then I'm logged in as user "ext1"
-
-
+    Then I see user "ext1" in the user list
 
   Scenario: Register external user with existing id
     Given I go to the external registration page

@@ -39,7 +39,7 @@ export class StudentRegisterComponent implements OnInit {
         this.authenticationService.login(this.student.id, this.student.password).subscribe({
           next: (user: User) => {
             if (user) {
-              this.router.navigate(['/about']);
+              this.router.navigate(['/users']);
             } else {
               this.errorMessage = 'No se pudo guardar el usuario tras el login.';
             }
