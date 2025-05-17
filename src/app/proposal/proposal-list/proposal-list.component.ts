@@ -5,6 +5,7 @@ import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import {NgForOf, NgIf} from '@angular/common';
 import { ProposalService} from "../proposal.service";
 import {Proposal} from "../proposal";
+import {AuthenticationBasicService} from "../../login-basic/authentication-basic.service";
 
 @Component({
   imports: [RouterLink, NgbPagination, NgForOf, NgIf],
@@ -16,13 +17,16 @@ export class ProposalListComponent implements OnInit {
   public pageSize = 5;
   public page = 1;
   public totalProposals = 0;
+  public isLoggedIn = false;
 
   constructor(
     public router: Router,
-    private proposalService: ProposalService) {
+    private proposalService: ProposalService,
+    private authService: AuthenticationBasicService) {
   }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
     this.proposalService.getPage({ pageParams: { size: this.pageSize }, sort: { title: 'ASC' } }).subscribe(
       (page: PagedResourceCollection<Proposal>) => {
         this.totalProposals = page.totalElements;

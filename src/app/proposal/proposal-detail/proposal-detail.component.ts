@@ -21,7 +21,7 @@ export class ProposalDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private proposalService: ProposalService,
-    private authService: AuthenticationBasicService
+    private authService: AuthenticationBasicService,
   ) {}
 
   ngOnInit(): void {
