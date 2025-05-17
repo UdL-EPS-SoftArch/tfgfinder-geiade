@@ -56,12 +56,25 @@ When("I click the {string} button", (label) => {
 
 
 // === Validaciones de login y mensajes ===
+/*
+Then("I'm logged in as user {string}", (id) => {
+  cy.get('#currentUser a.nav-link', { timeout: 10000 })
+    .should('be.visible')
+    .and('contain.text', id);
+});
+*/
 
 Then("I'm logged in as user {string}", (id) => {
-  cy.get('body', { timeout: 10000 })
-    .should('have.attr', 'data-current-user')
-    .and('eq', id);
+  cy.window().then((win) => {
+    const storedUser = win.localStorage.getItem('currentUser');
+    if (!storedUser) {
+      throw new Error('No currentUser found in localStorage');
+    }
+    const user = JSON.parse(storedUser);
+    expect(user.id).to.equal(id);
+  });
 });
+
 
 
 
@@ -88,3 +101,8 @@ Then("I see input field feedback message {string}", (message) => {
     .invoke('text')
     .should('contains', message);
 });
+
+Then("I'm redirected to the About page", () => {
+  cy.url().should('include', '/about');
+});
+

@@ -5,6 +5,7 @@ import { AuthenticationBasicService } from '../../login-basic/authentication-bas
 import { Professor } from '../professor';
 import { FormsModule } from "@angular/forms";
 import { ProfessorService } from '../professor.service';
+import {User} from "../../login-basic/user";
 
 @Component({
   selector: 'app-professor-register',
@@ -28,16 +29,19 @@ export class ProfessorRegisterComponent implements OnInit {
     this.professor = new Professor();
   }
 
+
   onSubmit(): void {
     this.professor.dtype = 'Professor';
 
     this.professorService.createResource({ body: this.professor }).subscribe({
       next: () => {
         this.authenticationService.login(this.professor.id, this.professor.password).subscribe({
-          next: (user) => {
-            setTimeout(() => {
+          next: (user: User) => {
+            if (user) {
               this.router.navigate(['/about']);
-            }, 0);
+            } else {
+              this.errorMessage = 'No se pudo guardar el usuario tras el login.';
+            }
           },
           error: () => this.errorMessage = 'No se pudo iniciar sesión tras el registro.'
         });

@@ -5,6 +5,7 @@ import { AuthenticationBasicService } from '../../login-basic/authentication-bas
 import { External } from '../../external/external';
 import { FormsModule } from "@angular/forms";
 import { ExternalService } from '../../external/external.service';
+import {User} from "../../login-basic/user";
 
 @Component({
   selector: 'app-organisation-register',
@@ -34,10 +35,12 @@ export class OrganisationRegisterComponent implements OnInit {
     this.externalService.createResource({ body: this.external }).subscribe({
       next: () => {
         this.authenticationService.login(this.external.id, this.external.password).subscribe({
-          next: (user) => {
-            setTimeout(() => {
+          next: (user: User) => {
+            if (user) {
               this.router.navigate(['/about']);
-            }, 0);
+            } else {
+              this.errorMessage = 'No se pudo guardar el usuario tras el login.';
+            }
           },
           error: () => this.errorMessage = 'No se pudo iniciar sesión tras el registro.'
         });
@@ -45,6 +48,7 @@ export class OrganisationRegisterComponent implements OnInit {
       error: () => this.errorMessage = 'No se pudo completar el registro.'
     });
   }
+
 
 
   onCancel(): void {

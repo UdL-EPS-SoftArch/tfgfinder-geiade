@@ -33,13 +33,16 @@ export class StudentRegisterComponent implements OnInit {
 
   onSubmit(): void {
     this.student.dtype = 'Student';
+
     this.studentService.createResource({ body: this.student }).subscribe({
       next: () => {
         this.authenticationService.login(this.student.id, this.student.password).subscribe({
           next: (user: User) => {
-            setTimeout(() => {
-              this.router.navigate(['users', user.id]);
-            }, 0);
+            if (user) {
+              this.router.navigate(['/about']);
+            } else {
+              this.errorMessage = 'No se pudo guardar el usuario tras el login.';
+            }
           },
           error: () => this.errorMessage = 'No se pudo iniciar sesión tras el registro.'
         });
@@ -47,6 +50,8 @@ export class StudentRegisterComponent implements OnInit {
       error: () => this.errorMessage = 'No se pudo completar el registro.'
     });
   }
+
+
 
 
   onCancel(): void {

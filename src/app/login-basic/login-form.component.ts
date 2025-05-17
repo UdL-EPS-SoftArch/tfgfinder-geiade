@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginFormComponent implements OnInit {
   user: User;
+  errorMessage = '';
 
   constructor(private authenticationService: AuthenticationBasicService,
               private location: Location,
@@ -23,9 +24,19 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.authenticationService.login(this.user.id, this.user.password)
-      .subscribe(() => this.router.navigateByUrl(''));
+    this.authenticationService.login(this.user.id, this.user.password).subscribe({
+      next: (user: User) => {
+        if (user) {
+          this.router.navigate(['/about']);
+        } else {
+          this.errorMessage = 'No se pudo guardar el usuario tras el login.';
+        }
+      },
+      error: () => this.errorMessage = 'Credenciales incorrectas.'
+    });
   }
+
+
 
   onCancel(): void {
     this.location.back();
