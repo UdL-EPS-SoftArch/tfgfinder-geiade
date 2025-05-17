@@ -5,10 +5,19 @@ import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
 
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+
 @Component({
   selector: 'app-interest-show',
   templateUrl: './interest-show.component.html',
-  standalone: true
+  standalone: true,
+  imports: [
+    CommonModule, 
+    RouterModule
+  ]
 })
 export class InterestShowComponent implements OnInit {
 
@@ -20,13 +29,15 @@ export class InterestShowComponent implements OnInit {
 
   constructor(
     private interestService: InterestService,
-    private authService: AuthenticationBasicService
+    private authService: AuthenticationBasicService,
+    private httpClient: HttpClient
   ) {}
 
 
   ngOnInit(): void {
     this.getInterests();
   }
+  
 
   /**
    * 
@@ -36,73 +47,78 @@ export class InterestShowComponent implements OnInit {
    * 
    */
   getInterests(): void {
-  const currentUser = this.authService.getCurrentUser();
-  if (!currentUser) {
-    this.handleError('User not logged in');
-    return;
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      this.handleError('User not logged in');
+      return;
+    }
+
+    this.isLoading = true;
+    this.interestService.getAllInterests().subscribe({
+      next: data => this.processInterests(data, currentUser.username),
+      error: () => this.handleError('Error fetching interests')
+    });
   }
 
-  this.isLoading = true;
-  this.interestService.getAllInterests().subscribe({
-    next: data => this.processInterests(data, currentUser.username),
-    error: () => this.handleError('Error fetching interests')
-  });
-}
 
-private processInterests(response: any, username: string): void {
-  const interestsList = response?._embedded?.interests || [];
-  if (interestsList.length === 0) {
-    this.finishLoading([]);
-    return;
-  }
+  private processInterests(response: any, username: string): void {
+    const interestsList = response?._embedded?.interests || [];
+    if (interestsList.length === 0) {
+      this.finishLoading([]);
+      return;
+    }
 
-  let pendingRequests = interestsList.length;
-  const filteredInterests: any[] = [];
+    let pendingRequests = interestsList.length;
+    const filteredInterests: any[] = [];
 
-  interestsList.forEach(interest => {
-    const proposalUrl = interest._links.what.href;
-    const requesterUrl = interest._links.who.href;
+    interestsList.forEach(interest => {
+      const proposalUrl = interest._links.what.href;
+      const requesterUrl = interest._links.who.href;
 
-    this.loadEntity(proposalUrl).then(proposal => {
-      this.loadEntity(proposal._links.owner.href).then(proposalOwner => {
-        this.loadEntity(requesterUrl).then(requester => {
-          if (proposalOwner.username === username) {
-            filteredInterests.push({
-              ...interest,
-              what: proposal,
-              who: requester,
-              id: this.extractId(interest._links.self.href)
-            });
-          }
-          if (--pendingRequests === 0) this.finishLoading(filteredInterests);
+      this.loadEntity(proposalUrl).then(proposal => {
+        this.loadEntity(proposal._links.owner.href).then(proposalOwner => {
+          this.loadEntity(requesterUrl).then(requester => {
+            if (proposalOwner.username === username) {
+              filteredInterests.push({
+                ...interest,
+                what: proposal,
+                who: requester,
+                id: this.extractId(interest._links.self.href)
+              });
+            }
+            if (--pendingRequests === 0) this.finishLoading(filteredInterests);
+          }).catch(() => this.handlePartialError(--pendingRequests, filteredInterests));
         }).catch(() => this.handlePartialError(--pendingRequests, filteredInterests));
       }).catch(() => this.handlePartialError(--pendingRequests, filteredInterests));
-    }).catch(() => this.handlePartialError(--pendingRequests, filteredInterests));
-  });
-}
+    });
+  }
 
-private loadEntity(url: string): Promise<any> {
-  return this.interestService['http'].get<any>(url).toPromise();
-}
 
-private extractId(link: string): string {
-  return link.substring(link.lastIndexOf('/') + 1);
-}
+  private loadEntity(url: string): Promise<any> {
+    return this.interestService['http'].get<any>(url).toPromise();
+  }
 
-private finishLoading(data: any[]): void {
-  this.interests = data;
-  this.isLoading = false;
-}
 
-private handleError(message: string): void {
-  this.loadError = message;
-  this.isLoading = false;
-}
+  private extractId(link: string): string {
+    return link.substring(link.lastIndexOf('/') + 1);
+  }
 
-private handlePartialError(pending: number, accumulated: any[]): void {
-  if (pending === 0) this.finishLoading(accumulated);
-}
 
+  private finishLoading(data: any[]): void {
+    this.interests = data;
+    this.isLoading = false;
+  }
+
+
+  private handleError(message: string): void {
+    this.loadError = message;
+    this.isLoading = false;
+  }
+
+
+  private handlePartialError(pending: number, accumulated: any[]): void {
+    if (pending === 0) this.finishLoading(accumulated);
+  }
 
 
 }
