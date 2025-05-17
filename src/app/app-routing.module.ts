@@ -12,9 +12,11 @@ import {CategoryListComponent} from "./category/category-list/category-list.comp
 import {CategoryDetailComponent} from "./category/category-detail/category-detail.component";
 import {CategoryDeleteComponent} from "./category/category-delete/category-delete.component";
 import {CategoryEditComponent} from "./category/category-edit/category-edit.component";
+import {CategoryRegisterComponent} from "./category/category-register/category-register.component";
 
 
 const routes: Routes = [
+  { path: 'categories/create', component: CategoryRegisterComponent},
   { path: 'categories/:name/edit', component: CategoryEditComponent},
   { path: 'categories/:name/delete', component: CategoryDeleteComponent},
   { path: 'categories/:name', component: CategoryDetailComponent},
