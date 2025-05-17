@@ -1,0 +1,33 @@
+<form id="interest-form" (ngSubmit)="onSubmit()" #form="ngForm">
+  <fieldset>
+    
+
+    <!-- Título del interés -->
+    <div class="form-group mb-3" [class.was-validated]="title.dirty || title.touched">
+      <label class="control-label" for="title">Title*</label>
+      <input id="title" name="title" type="text" class="form-control" required
+             [(ngModel)]="interest.title" #title="ngModel">
+      <div class="invalid-feedback">A title is required</div>
+    </div>
+
+
+    <!-- ID de la propuesta -->
+    <div class="form-group mb-3" [class.was-validated]="proposal.dirty || proposal.touched">
+      <label class="control-label" for="proposal">Proposal ID*</label>
+      <input id="proposal" name="proposal" type="number" class="form-control" required
+             [(ngModel)]="interest.proposal" #proposal="ngModel">
+      <div class="invalid-feedback">A proposal ID is required</div>
+    </div>
+
+
+    <!-- Botones -->
+    <div class="form-group fa-pull-right">
+      <button id="listBtn" type="button" (click)="onCancel()"
+              class="btn btn-outline-primary pull-right">Back</button>
+      <button id="submit" type="submit" [disabled]="!form.form.valid"
+              class="btn ms-3 btn-success pull-right">Submit</button>
+    </div>
+
+
+  </fieldset>
+</form>
