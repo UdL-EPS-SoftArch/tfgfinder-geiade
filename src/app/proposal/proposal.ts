@@ -4,7 +4,7 @@ import {Category} from "../category/category";
 
 @HateoasResource('proposals')
 export class Proposal extends Resource{
-  id: number;
+  uri: string;
   title: string;
   description: string;
   timing: string;
@@ -17,5 +17,15 @@ export class Proposal extends Resource{
   constructor(values: object = {}) {
     super();
     Object.assign(this as any, values);
+  }
+
+  get id(): number | null {
+    if (this.uri) {
+      const match = this.uri.match(/\/proposals\/(\d+)/);
+      if (match) {
+        return +match[1];
+      }
+    }
+    return null;
   }
 }
