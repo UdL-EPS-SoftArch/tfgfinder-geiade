@@ -18,7 +18,6 @@ export class ProposalCreateComponent implements OnInit {
   public proposal: Proposal;
   keywordsInput = '';
   categories: Category[] = [];
-  public selectedCategoryId: number | null = null;
 
 
   constructor(private router: Router,
