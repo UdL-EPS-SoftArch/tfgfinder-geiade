@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
+import {AuthenticationBasicService} from "../../login-basic/authentication-basic.service";
+import {NgIf} from "@angular/common";
 
 
 @Component({
   selector: 'app-category-detail',
   imports: [
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './category-detail.component.html'
 })
@@ -17,7 +20,8 @@ export class CategoryDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private authService: AuthenticationBasicService
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +36,9 @@ export class CategoryDetailComponent implements OnInit {
         }
       );
     }
+  }
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
 }

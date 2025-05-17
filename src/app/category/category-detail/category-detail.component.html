@@ -15,15 +15,17 @@
       <button id="listBtn" type="button" [routerLink]="['/categories']"
               class="btn m-1 btn-outline-primary">User List
       </button>
-      <button id="editBtn" type="button"  [routerLink]="['/categories', category.name, 'edit']"
-              class="btn m-1 btn-outline-success">Edit
-      </button>
-      <button id="deleteBtn"
-              type="button"
-              [routerLink]="['/categories', category.name, 'delete']"
-              class="btn m-1 btn-outline-danger">
-        Delete
-      </button>
+      <ng-container *ngIf="isLoggedIn()">
+        <button id="editBtn" type="button"  [routerLink]="['/categories', category.name, 'edit']"
+                class="btn m-1 btn-outline-success">Edit
+        </button>
+        <button id="deleteBtn"
+                type="button"
+                [routerLink]="['/categories', category.name, 'delete']"
+                class="btn m-1 btn-outline-danger">
+          Delete
+        </button>
+      </ng-container>
     </div>
   </div>
 </div>

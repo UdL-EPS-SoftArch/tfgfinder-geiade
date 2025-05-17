@@ -3,14 +3,15 @@ import { Category } from "../category";
 import { CategoryService } from "../category.service";
 import { PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
 import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {AuthenticationBasicService} from "../../login-basic/authentication-basic.service";
 
 
 @Component({
   selector: 'app-category-list',
   imports: [
-    NgbPagination, NgForOf, RouterLink
+    NgbPagination, NgForOf, RouterLink, NgIf
   ],
   templateUrl: './category-list.component.html'
 })
@@ -21,7 +22,8 @@ export class CategoryListComponent implements OnInit {
   public totalcategories = 0;
 
   constructor(
-    private categoryService: CategoryService) {
+    private categoryService: CategoryService,
+    private authService: AuthenticationBasicService) {
   }
 
   ngOnInit(): void {
@@ -40,6 +42,10 @@ export class CategoryListComponent implements OnInit {
   detail(event: any): void {
     this.categories = event.result.category;
     this.totalcategories = event.result.totalElements;
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }
 

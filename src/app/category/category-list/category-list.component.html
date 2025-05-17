@@ -1,9 +1,13 @@
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h4 class="mb-0">Categories</h4>
-  <a routerLink="/categories/create" class="btn btn-primary">
-    + Add Category
-  </a>
-</div>
+
+<ng-container *ngIf="isLoggedIn()">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Categories</h4>
+    <a routerLink="/categories/create" class="btn btn-primary">
+      + Add Category
+    </a>
+  </div>
+</ng-container>
 
 <div class="card mb-1" *ngFor="let category of categories">
   <div class="card-block row m-1 col-12">
