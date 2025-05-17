@@ -18,6 +18,8 @@ import {InviteListComponent} from "./invite/invite-list/invite-list.component";
 import {InviteDeleteComponent} from "./invite/invite-delete/invite-delete.component";
 import {InviteDetailComponent} from "./invite/invite-detail/invite-detail.component";
 import { ProposalListComponent } from './proposal/proposal-list/proposal-list.component';
+import { ProposalCreateComponent } from './proposal/proposal-create/proposal-create.component';
+import {ProposalDetailComponent} from "./proposal/proposal-detail/proposal-detail.component";
 
 
 
@@ -29,6 +31,8 @@ const routes: Routes = [
   { path: 'categories/:name', component: CategoryDetailComponent},
   { path: 'categories', component: CategoryListComponent},
   { path: 'proposals', component: ProposalListComponent},
+  { path: 'proposals/create', component: ProposalCreateComponent, canActivate: [LoggedInGuard]},
+  { path: 'proposals/:id/detail', component: ProposalDetailComponent, canActivate: [LoggedInGuard]},
   { path: 'users/create', component: UserRegisterComponent},
   { path: 'users/:id/delete', component: UserDeleteComponent, canActivate: [LoggedInGuard]},
   { path: 'users/:id/edit', component: UserEditComponent, canActivate: [LoggedInGuard]},
