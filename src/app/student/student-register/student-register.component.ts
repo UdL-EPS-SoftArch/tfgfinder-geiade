@@ -36,7 +36,7 @@ export class StudentRegisterComponent implements OnInit {
 
     this.studentService.createResource({ body: this.student }).subscribe({
       next: () => {
-        this.authenticationService.login(this.student.id, this.student.password).subscribe({
+        this.authenticationService.login(this.student.username, this.student.password).subscribe({
           next: (user: User) => {
             if (user) {
               this.router.navigate(['/users']);

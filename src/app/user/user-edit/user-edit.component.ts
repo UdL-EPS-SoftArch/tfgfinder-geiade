@@ -33,15 +33,15 @@ export class UserEditComponent implements OnInit {
       (patchedUser: User) => {
         if (this.user.passwordReset) {
           this.authenticationService.logout();
-          this.authenticationService.login(this.user.id, this.user.password).subscribe(
-            (user: User) => this.router.navigate(['users', user.id]));
+          this.authenticationService.login(this.user.username, this.user.password).subscribe(
+            (user: User) => this.router.navigate(['users', user.username]));
         } else {
-          this.router.navigate(['users', patchedUser.id]);
+          this.router.navigate(['users', patchedUser.username]);
         }
       });
   }
 
   getCurrentid(): string {
-    return this.authenticationService.getCurrentUser().id;
+    return this.authenticationService.getCurrentUser().username;
   }
 }

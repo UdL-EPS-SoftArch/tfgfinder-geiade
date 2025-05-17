@@ -34,7 +34,7 @@ export class OrganisationRegisterComponent implements OnInit {
 
     this.externalService.createResource({ body: this.external }).subscribe({
       next: () => {
-        this.authenticationService.login(this.external.id, this.external.password).subscribe({
+        this.authenticationService.login(this.external.username, this.external.password).subscribe({
           next: (user: User) => {
             if (user) {
               this.router.navigate(['/users']);

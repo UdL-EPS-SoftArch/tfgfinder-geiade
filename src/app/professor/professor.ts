@@ -3,7 +3,7 @@ import { HateoasResource } from '@lagoshny/ngx-hateoas-client';
 
 @HateoasResource('professors')
 export class Professor extends User {
-  id: string;
+  username: string;
   email: string;
   password: string;
   name: string;

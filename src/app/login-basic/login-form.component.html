@@ -6,13 +6,13 @@
 
     <!-- id input -->
     <div class="form-group mb-3" [class.was-validated]="id.dirty || id.touched">
-      <label class="control-label" for="id">id*</label>
-      <input id="id"
+      <label class="control-label" for="username">id*</label>
+      <input id="username"
              type="text"
-             name="id"
+             name="username"
              class="form-control"
              #id="ngModel"
-             [(ngModel)]="user.id"
+             [(ngModel)]="user.username"
              required>
       <div class="text-danger"
            *ngIf="id.invalid && (id.dirty || id.touched)">

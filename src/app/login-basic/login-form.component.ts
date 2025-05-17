@@ -24,7 +24,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.authenticationService.login(this.user.id, this.user.password).subscribe({
+    this.authenticationService.login(this.user.username, this.user.password).subscribe({
       next: (user: User) => {
         if (user) {
           this.router.navigate(['/users']);

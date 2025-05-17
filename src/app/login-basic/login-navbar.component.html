@@ -1,6 +1,6 @@
 <li class="nav-item" *ngIf="isLoggedIn()" id="currentUser">
-  <a class="nav-link" [routerLink]="['/users', getCurrentUser().id]">
-    <span class="fas fa-user-circle"></span> {{getCurrentUser().id}}</a>
+  <a class="nav-link" [routerLink]="['/users', getCurrentUser().username]">
+    <span class="fas fa-user-circle"></span> {{getCurrentUser().username}}</a>
 </li>
 
 <li class="nav-item" *ngIf="isLoggedIn()">

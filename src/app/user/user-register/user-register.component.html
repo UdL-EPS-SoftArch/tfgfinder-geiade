@@ -3,15 +3,15 @@
 
     <!-- id input -->
     <div class="form-group mb-3" [class.was-validated]="id.dirty || id.touched">
-      <label class="control-label" for="id">id*</label>
-      <input id="id" name="id" type="text" class="form-control" required
-             [(ngModel)]="user.id" #id="ngModel">
+      <label class="control-label" for="username">id*</label>
+      <input id="username" name="username" type="text" class="form-control" required
+             [(ngModel)]="user.username" #id="ngModel">
       <div class="invalid-feedback">A id is required</div>
     </div>
 
     <!-- E-Mail input -->
     <div class="form-group mb-3" [class.was-validated]="email.dirty || email.touched">
-      <label class="control-label" for="id">E-Mail*</label>
+      <label class="control-label" for="username">E-Mail*</label>
       <input id="email" name="email" type="email" class="form-control" required email
              [(ngModel)]="user.email" #email="ngModel">
       <div class="invalid-feedback">An e-mail is required</div>

@@ -37,34 +37,41 @@ When("I fill the form with", (table: DataTable) => {
 });
 
 When("I click the {string} button", (label) => {
-  cy.contains('button', label, { timeout: 10000 })
-    .should('be.visible')
-    .click();
-})
-
-Then("I see user {string} in the user list", (username) => {
-  cy.url({ timeout: 10000 }).should('include', '/users');
-  cy.get('a.card-text', { timeout: 10000 }).contains(username).should('be.visible');
+  const id = label.toLowerCase() === 'register' || label.toLowerCase() === 'submit'
+    ? '#submit-button'
+    : '#cancel-button';
+  cy.get(id, { timeout: 10000 }).should('be.visible').click();
 });
 
-Then("I see error message {string}", (message) => {
+Then("I see user {string} in the user list", (username: string) => {
+  cy.url({ timeout: 10000 }).should('include', '/users');
+
+  cy.get('.user-list', { timeout: 10000 })
+    .find('a.card-text')
+    .contains(username)
+    .should('be.visible');
+});
+
+
+
+Then("I see error message {string}", (message: string) => {
   cy.get('.alert')
     .should('be.visible')
     .invoke('text')
-    .should('contains', message);
+    .should('include', message);
 });
 
-Then("The {string} button is disabled", (label) => {
+Then("The {string} button is disabled", (label: string) => {
   cy.get('button').contains(label, { timeout: 5000 })
     .should('be.disabled');
 });
 
-Then("The {string} menu is not present", (option) => {
+Then("The {string} menu is not present", (option: string) => {
   cy.get('.nav-link').contains(option)
     .should('not.exist');
 });
 
-Then("I see input field feedback message {string}", (message) => {
+Then("I see input field feedback message {string}", (message: string) => {
   cy.get('.invalid-feedback', { timeout: 5000 })
     .should('be.visible')
     .and('contain.text', message);

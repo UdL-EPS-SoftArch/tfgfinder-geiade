@@ -24,7 +24,7 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getPage({ pageParams:  { size: this.pageSize }, sort: { id: 'ASC' } }).subscribe(
+    this.userService.getPage({ pageParams:  { size: this.pageSize }, sort: { username: 'ASC' } }).subscribe(
         (page: PagedResourceCollection<User>) => {
           this.users = page.resources;
           this.totalUsers = page.totalElements;
@@ -32,11 +32,11 @@ export class UserListComponent implements OnInit {
   }
 
   changePage(): void {
-    this.userService.getPage({ pageParams: { page: this.page - 1, size: this.pageSize }, sort: { id: 'ASC' } }).subscribe(
+    this.userService.getPage({ pageParams: { page: this.page - 1, size: this.pageSize }, sort: { username: 'ASC' } }).subscribe(
       (page: PagedResourceCollection<User>) => this.users = page.resources);
   }
 
   detail(user: User): void {
-    this.router.navigate(['users', user.id]);
+    this.router.navigate(['users', user.username]);
   }
 }

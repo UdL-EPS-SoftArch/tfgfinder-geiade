@@ -3,7 +3,7 @@ import { User } from '../login-basic/user';
 
 @HateoasResource('externals')
 export class External extends User {
-  id: string;
+  username: string;
   email: string;
   password: string;
   name: string;

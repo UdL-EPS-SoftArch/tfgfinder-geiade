@@ -12,7 +12,7 @@ Feature: Register all user types
     Given I go to the student registration page
     When I fill the form with
       | FIELD        | VALUE             |
-      | id           | student1          |
+      | username     | student1          |
       | email        | student@demo.app  |
       | password     | password123       |
       | name         | Alice             |
@@ -30,7 +30,7 @@ Feature: Register all user types
     Given I go to the student registration page
     When I fill the form with
       | FIELD        | VALUE             |
-      | id           | student2          |
+      | username     | student2          |
       | email        | invalid@x.com     |
       | password     | password123       |
       | name         | Bob               |
@@ -49,7 +49,7 @@ Feature: Register all user types
     Given I go to the professor registration page
     When I fill the form with
       | FIELD      | VALUE             |
-      | id         | prof1             |
+      | username   | prof1             |
       | email      | prof@demo.app     |
       | password   | password123       |
       | name       | Eva               |
@@ -63,7 +63,7 @@ Feature: Register all user types
     Given I go to the professor registration page
     When I fill the form with
       | FIELD    | VALUE             |
-      | id       | prof2             |
+      | username | prof2             |
       | email    | p2@demo.app       |
       | password | password123       |
       | name     | Marta             |
@@ -76,7 +76,7 @@ Feature: Register all user types
     Given I go to the external registration page
     When I fill the form with
       | FIELD        | VALUE              |
-      | id           | ext1               |
+      | username     | ext1               |
       | email        | ext@demo.app       |
       | password     | password123        |
       | name         | Alex               |
@@ -94,7 +94,7 @@ Feature: Register all user types
     Given I go to the external registration page
     When I fill the form with
       | FIELD        | VALUE              |
-      | id           | ext1               |
+      | username     | ext1               |
       | email        | ext2@demo.app      |
       | password     | password123        |
       | name         | Alex               |
@@ -112,7 +112,7 @@ Feature: Register all user types
     Given I go to the organisation registration page
     When I fill the form with
       | FIELD        | VALUE             |
-      | id           | org2              |
+      | username     | org2              |
       | email        | org2@demo.app     |
       | password     | password123       |
       | name         | Org 2             |

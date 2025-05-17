@@ -3,14 +3,13 @@ import { HateoasResource, Resource } from '@lagoshny/ngx-hateoas-client';
 
 @HateoasResource('users')
 export class User extends Resource {
-  id: string; // username
+  username: string; //
   email: string;
   password: string = '';
   passwordReset: boolean = false;
   authorization: string = '';
   authorities: Authority[] = [];
   uri: string;
-  username: string;
 
   constructor(values: object = {}) {
     super();
