@@ -24,7 +24,8 @@ Feature: Register all user types
       | phoneNumber  | 123456789         |
       | degree       | Informatics       |
     And I click the "Submit" button
-    Then I see user "student1" exists in the backend
+    Then the user "student1" exists in the backend
+
 
 
   Scenario: Register student with invalid DNI
@@ -58,7 +59,8 @@ Feature: Register all user types
       | faculty    | EPS               |
       | department | IT                |
     And I click the "Submit" button
-    Then I see user "prof1" exists in the backend
+    Then the user "prof1" exists in the backend
+
 
 
   Scenario: Register professor with missing department
@@ -90,7 +92,8 @@ Feature: Register all user types
       | postalCode   | 25001              |
       | phoneNumber  | 987654321          |
     And I click the "Submit" button
-    Then I see user "ext1" exists in the backend
+    Then the user "ext1" exists in the backend
+
 
   Scenario: Register external user with existing id
     Given I go to the external registration page

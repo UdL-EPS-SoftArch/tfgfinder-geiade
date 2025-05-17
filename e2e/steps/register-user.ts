@@ -51,16 +51,17 @@ Then("I see user {string} in the user list", (username: string) => {
     .should('be.visible');
 });
 
-Then("I see user {string} exists in the backend", (username: string) => {
+Then("the user {string} exists in the backend", (username: string) => {
   cy.request({
     method: 'GET',
-    url: `http://localhost:8080/api/users/findByUsername?username=${username}`,
-    failOnStatusCode: false
+    url: `http://localhost:8080/api/users/${username}`,
+    failOnStatusCode: false // Para que no pete si da 404, lo controlamos nosotros
   }).then((response) => {
     expect(response.status).to.eq(200);
     expect(response.body).to.have.property('username', username);
   });
 });
+
 
 
 
