@@ -10,6 +10,7 @@ export class User extends Resource {
   authorization: string = '';
   authorities: Authority[] = [];
   uri: string;
+  username: string;
 
   constructor(values: object = {}) {
     super();

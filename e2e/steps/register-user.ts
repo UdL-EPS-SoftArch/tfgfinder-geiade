@@ -37,13 +37,11 @@ When("I fill the form with", (table: DataTable) => {
 });
 
 When("I click the {string} button", (label) => {
-  const id = label.toLowerCase() === 'register' || label.toLowerCase() === 'submit'
-    ? '#submit-button'
-    : '#cancel-button';
-  cy.get(id, { timeout: 10000 }).should('be.visible').click();
-});
+  cy.contains('button', label, { timeout: 10000 })
+    .should('be.visible')
+    .click();
+})
 
-// ✅ MODIFICADO: espera explícitamente a la URL y luego busca el usuario en el listado
 Then("I see user {string} in the user list", (username) => {
   cy.url({ timeout: 10000 }).should('include', '/users');
   cy.get('a.card-text', { timeout: 10000 }).contains(username).should('be.visible');

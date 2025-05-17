@@ -5,7 +5,7 @@ import { User } from '../../login-basic/user';
 import { PagedResourceCollection } from '@lagoshny/ngx-hateoas-client';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { UserSearchComponent } from '../user-search/user-search.component';
-import { NgForOf } from '@angular/common';
+import {JsonPipe, NgForOf} from '@angular/common';
 
 @Component({
   imports: [RouterLink, NgbPagination, UserSearchComponent, NgForOf],
