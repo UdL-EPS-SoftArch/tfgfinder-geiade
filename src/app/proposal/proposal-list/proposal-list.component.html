@@ -6,8 +6,14 @@
         <a class="card-text" [routerLink]="['/proposals', proposal.id]">{{proposal.title}}</a>
       </div>
       <div class="col-6 mt-1">
-        <h6 class="card-subtitle text-muted">Categories</h6>
-        <p class="card-text">{{proposal.category}}</p>
+        <h6 class="card-subtitle text-muted">Category</h6>
+        <p *ngIf="proposal.category?.name; else noCategory" class="card-text">
+          {{ proposal.category.name }}
+        </p>
+
+        <ng-template #noCategory>
+          <p class="card-text text-muted">No category assigned</p>
+        </ng-template>
       </div>
       <div class="col-12 mt-1">
         <h6 class="card-subtitle text-muted">Description</h6>

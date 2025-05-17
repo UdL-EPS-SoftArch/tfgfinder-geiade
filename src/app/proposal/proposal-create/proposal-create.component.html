@@ -92,12 +92,13 @@
         <div class="form-group mb-3" [class.was-validated]="categorySelect.dirty || categorySelect.touched">
             <label for="categorySelect" class="control-label">Category</label>
             <select id="categorySelect" name="categorySelect" class="form-control"
-                    [(ngModel)]="proposal.categoryId" #categorySelect="ngModel">
-                <option value="" disabled selected>Select a category</option>
-                <option *ngFor="let category of categories" [value]="category.id">
+                    [(ngModel)]="proposal.category" #categorySelect="ngModel" required>
+                <option [ngValue]="null" disabled>Select a category</option>
+                <option *ngFor="let category of categories" [ngValue]="category">
                     {{ category.name }}
                 </option>
             </select>
+
             <div class="invalid-feedback" *ngIf="categorySelect.errors?.['required']">
                 Please select a category.
             </div>
