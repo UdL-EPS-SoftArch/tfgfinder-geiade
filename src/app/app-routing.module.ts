@@ -10,9 +10,13 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserDeleteComponent } from './user/user-delete/user-delete.component';
 import {CategoryListComponent} from "./category/category-list/category-list.component";
 import {CategoryDetailComponent} from "./category/category-detail/category-detail.component";
+import {CategoryDeleteComponent} from "./category/category-delete/category-delete.component";
 
 
 const routes: Routes = [
+  { path: 'categories/:name/delete', component: CategoryDeleteComponent},
+  { path: 'categories/:name', component: CategoryDetailComponent},
+  { path: 'categories', component: CategoryListComponent},
   { path: 'users/create', component: UserRegisterComponent},
   { path: 'users/:id/delete', component: UserDeleteComponent, canActivate: [LoggedInGuard]},
   { path: 'users/:id/edit', component: UserEditComponent, canActivate: [LoggedInGuard]},
@@ -21,8 +25,6 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent},
   { path: '404', component: NotFoundComponent},
   { path: '', redirectTo: 'about', pathMatch: 'full'},
-  { path: 'categories', component: CategoryListComponent},
-  { path: 'categories/:name', component: CategoryDetailComponent},
 ];
 
 @NgModule({

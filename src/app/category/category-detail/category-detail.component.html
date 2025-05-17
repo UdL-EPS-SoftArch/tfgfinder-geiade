@@ -17,13 +17,15 @@
       </button>
       <!--<button id="editBtn" type="button" *ngIf="getCurrentUser().username === user.username" [routerLink]="['edit']"
               class="btn m-1 btn-outline-success">Edit
+      </button> -->
+      <button id="deleteBtn"
+              type="button"
+              [routerLink]="['/categories', category.name, 'delete']"
+              class="btn m-1 btn-outline-danger">
+        Delete
       </button>
-      <button id="deleteBtn" type="button" *ngIf="getCurrentUser().username === user.username" [routerLink]="['delete']"
-              class="btn m-1 btn-outline-danger">Delete
-      </button>-->
     </div>
   </div>
 </div>
 
 
-<p>category-detail works!</p>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import { Category } from "../category";
-import { CategoryService } from "../category.service";
+import { Category } from '../category';
+import { CategoryService } from '../category.service';
 
 
 @Component({
@@ -33,6 +33,5 @@ export class CategoryDetailComponent implements OnInit {
       );
     }
   }
-
 
 }
