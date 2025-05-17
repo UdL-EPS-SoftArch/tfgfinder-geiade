@@ -20,6 +20,7 @@ import {InviteDetailComponent} from "./invite/invite-detail/invite-detail.compon
 import { ProposalListComponent } from './proposal/proposal-list/proposal-list.component';
 import { ProposalCreateComponent } from './proposal/proposal-create/proposal-create.component';
 import {ProposalDetailComponent} from "./proposal/proposal-detail/proposal-detail.component";
+import {ProposalDeleteComponent} from "./proposal/proposal-delete/proposal-delete.component";
 
 
 
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'proposals/create', component: ProposalCreateComponent, canActivate: [LoggedInGuard]},
   { path: 'proposals/:id/detail', component: ProposalDetailComponent, canActivate: [LoggedInGuard]},
   { path: 'proposals/:id/edit', component: ProposalCreateComponent, canActivate: [LoggedInGuard]},
+  { path: 'proposals/:id/delete', component: ProposalDeleteComponent, canActivate: [LoggedInGuard]},
   { path: 'users/create', component: UserRegisterComponent},
   { path: 'users/:id/delete', component: UserDeleteComponent, canActivate: [LoggedInGuard]},
   { path: 'users/:id/edit', component: UserEditComponent, canActivate: [LoggedInGuard]},
