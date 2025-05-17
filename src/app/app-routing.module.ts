@@ -13,6 +13,10 @@ import {CategoryDetailComponent} from "./category/category-detail/category-detai
 import {CategoryDeleteComponent} from "./category/category-delete/category-delete.component";
 import {CategoryEditComponent} from "./category/category-edit/category-edit.component";
 import {CategoryRegisterComponent} from "./category/category-register/category-register.component";
+import {InviteCreateComponent} from "./invite/invite-create/invite-create.component";
+import {InviteListComponent} from "./invite/invite-list/invite-list.component";
+import {InviteDeleteComponent} from "./invite/invite-delete/invite-delete.component";
+import {InviteDetailComponent} from "./invite/invite-detail/invite-detail.component";
 
 
 const routes: Routes = [
@@ -29,6 +33,10 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent},
   { path: '404', component: NotFoundComponent},
   { path: '', redirectTo: 'about', pathMatch: 'full'},
+  { path: 'invite/create', component: InviteCreateComponent},
+  { path: 'invite/:id/detail', component: InviteDetailComponent, canActivate: [LoggedInGuard]},
+  { path: 'invite/:id/delete', component: InviteDeleteComponent, canActivate: [LoggedInGuard] },
+  { path: 'invite/myInvites', component: InviteListComponent},
 ];
 
 @NgModule({
