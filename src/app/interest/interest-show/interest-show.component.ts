@@ -1,43 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InterestService } from '../interest.service';
-import { Interest } from '../interest';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
 
 @Component({
-  selector: 'app-interest-creation',
-  templateUrl: './interest-creation.component.html',
-  standalone: true,
-  imports: [FormsModule]
+  selector: 'app-interest-show',
+  templateUrl: './interest-show.component.html',
+  standalone: true
 })
-export class InterestCreationComponent implements OnInit {
-
-  public interest: Interest;
+export class InterestShowComponent implements OnInit {
 
 
   constructor(
-    private router: Router,
-    private location: Location,
-    private interestService: InterestService
+    private interestService: InterestService,
+    private authService: AuthenticationBasicService
   ) {}
 
 
   ngOnInit(): void {
-    this.interest = new Interest();
+    this.getInterests();
   }
 
 
-  onSubmit(): void {
-    this.interestService.createResource({ body: this.interest }).subscribe(
-      (createdInterest: Interest) => {
-        this.router.navigate(['interests', createdInterest.id]); // Ajusta según la ruta deseada
-      }
-    );
-  }
-  
-
-  onCancel(): void {
-    this.location.back();
-  }
 }
