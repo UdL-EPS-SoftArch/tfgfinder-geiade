@@ -1,0 +1,29 @@
+<form id="category-form" (ngSubmit)="onSubmit()" #form="ngForm">
+  <fieldset>
+
+    <!-- Category Name input -->
+    <div class="form-group mb-3" [class.was-validated]="name.dirty || name.touched">
+      <label class="control-label" for="name">Name*</label>
+      <input id="name" name="name" type="text" class="form-control" required
+             [(ngModel)]="category.name" #name="ngModel">
+      <div class="invalid-feedback">A category name is required</div>
+    </div>
+
+    <!-- Category Description input -->
+    <div class="form-group mb-3" [class.was-validated]="description.dirty || description.touched">
+      <label class="control-label" for="description">Description*</label>
+      <textarea id="description" name="description" class="form-control" required rows="3"
+                [(ngModel)]="category.description" #description="ngModel"></textarea>
+      <div class="invalid-feedback">A description is required</div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-group fa-pull-right">
+      <button id="listBtn" type="button" (click)="onCancel()"
+              class="btn btn-outline-primary pull-right">Back</button>
+      <button id="submit" type="submit" [disabled]="!form.form.valid"
+              class="btn btn-success ms-3 pull-right">Submit</button>
+    </div>
+
+  </fieldset>
+</form>

@@ -1,0 +1,122 @@
+<form *ngIf="proposal" (ngSubmit)="onSubmit()" #formRef="ngForm">
+    <fieldset>
+
+        <!-- Title input -->
+        <div class="form-group mb-3" [class.was-validated]="title.dirty || title.touched">
+            <label for="title" class="control-label">Title*</label>
+            <input id="title" name="title" type="text" class="form-control" required minlength="12" maxlength="120"
+                   [(ngModel)]="proposal.title" #title="ngModel">
+            <!-- Custom validation feedback -->
+            <div class="invalid-feedback" *ngIf="title.errors?.['required']">
+                A title is required.
+            </div>
+            <div class="invalid-feedback" *ngIf="title.errors?.['minlength']">
+                The title must be at least 12 characters long.
+            </div>
+            <div class="invalid-feedback" *ngIf="title.errors?.['maxlength']">
+                The title must not exceed 120 characters.
+            </div>
+        </div>
+
+        <!-- Description input -->
+        <div class="form-group mb-3" [class.was-validated]="description.dirty || description.touched">
+            <label for="description" class="control-label">Description*</label>
+            <textarea id="description" name="description" class="form-control" required rows="3" minlength="50"
+                      maxlength="500"
+                      [(ngModel)]="proposal.description" #description="ngModel"></textarea>
+            <!-- Custom validation feedback -->
+            <div class="invalid-feedback" *ngIf="description.errors?.['required']">
+                A description is required.
+            </div>
+            <div class="invalid-feedback" *ngIf="description.errors?.['minlength']">
+                The description must be at least 50 characters long.
+            </div>
+            <div class="invalid-feedback" *ngIf="description.errors?.['maxlength']">
+                The description must not exceed 500 characters.
+            </div>
+        </div>
+
+        <!-- Timing input -->
+        <div class="form-group mb-3" [class.was-validated]="timing.dirty || timing.touched">
+            <label for="timing" class="control-label">Timing*</label>
+            <input id="timing" name="timing" type="text" class="form-control" required minlength="5" maxlength="50"
+                   [(ngModel)]="proposal.timing" #timing="ngModel">
+            <!-- Custom validation feedback -->
+            <div class="invalid-feedback" *ngIf="timing.errors?.['required']">
+                A timing is required.
+            </div>
+            <div class="invalid-feedback" *ngIf="timing.errors?.['minlength']">
+                The timing must be at least 5 characters long.
+            </div>
+            <div class="invalid-feedback" *ngIf="timing.errors?.['maxlength']">
+                The timing must not exceed 50 characters.
+            </div>
+        </div>
+
+        <!-- Speciality input -->
+        <div class="form-group mb-3" [class.was-validated]="speciality.dirty || speciality.touched">
+            <label for="speciality" class="control-label">Speciality*</label>
+            <input id="speciality" name="speciality" type="text" class="form-control" required minlength="5"
+                   maxlength="50"
+                   [(ngModel)]="proposal.speciality" #speciality="ngModel">
+            <!-- Custom validation feedback -->
+            <div class="invalid-feedback" *ngIf="speciality.errors?.['required']">
+                A speciality is required.
+            </div>
+            <div class="invalid-feedback" *ngIf="speciality.errors?.['minlength']">
+                The speciality must be at least 5 characters long.
+            </div>
+            <div class="invalid-feedback" *ngIf="speciality.errors?.['maxlength']">
+                The speciality must not exceed 50 characters.
+            </div>
+        </div>
+
+        <!-- Kind input -->
+        <div class="form-group mb-3" [class.was-validated]="kind.dirty || kind.touched">
+            <label for="kind" class="control-label">Kind*</label>
+            <input id="kind" name="kind" type="text" class="form-control" required minlength="5" maxlength="50"
+                   [(ngModel)]="proposal.kind" #kind="ngModel">
+            <!-- Custom validation feedback -->
+            <div class="invalid-feedback" *ngIf="kind.errors?.['required']">
+                A kind is required.
+            </div>
+            <div class="invalid-feedback" *ngIf="kind.errors?.['minlength']">
+                The speciality must be at least 5 characters long.
+            </div>
+            <div class="invalid-feedback" *ngIf="kind.errors?.['maxlength']">
+                The speciality must not exceed 50 characters.
+            </div>
+        </div>
+
+        <!-- Category selector dropdown -->
+        <div class="form-group mb-3" [class.was-validated]="categorySelect.dirty || categorySelect.touched">
+            <label for="categorySelect" class="control-label">Category</label>
+            <select id="categorySelect" name="categorySelect" class="form-control"
+                    [(ngModel)]="proposal.category" #categorySelect="ngModel">
+                <option value="" disabled selected>Select a category</option>
+                <option *ngFor="let category of categories" [ngValue]="category">
+                    {{ category.name }}
+                </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="categorySelect.errors?.['required']">
+                Please select a category.
+            </div>
+        </div>
+
+
+        <!-- Keywords input (as comma-separated text) -->
+        <div class="form-group mb-3" [class.was-validated]="keywords.dirty || keywords.touched">
+            <label for="keywords" class="control-label">Keywords</label>
+            <input id="keywords" name="keywords" type="text" class="form-control"
+                   placeholder="e.g., AI, Machine Learning"
+                   [(ngModel)]="keywordsInput" (blur)="updateKeywords()" #keywords="ngModel">
+            <div class="form-text">Separate keywords with commas</div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-group fa-pull-right">
+            <button type="button" (click)="onCancel()" class="btn btn-outline-primary pull-right">Back</button>
+            <button type="submit" [disabled]="formRef?.invalid" class="btn ms-3 btn-success pull-right">Submit</button>
+        </div>
+    </fieldset>
+</form>

@@ -1,0 +1,44 @@
+<div class="card mb-4">
+  <div class="card-block">
+    <h4 class="card-title col-md-12 p-3">{{proposal.title}}</h4>
+    <div class="card-body row m-1">
+      <div class="col-md-4 p-3">
+        <h6 class="card-subtitle text-muted">Description</h6>
+        <p class="card-text">{{proposal.description}}</p>
+      </div>
+      <div class="col-md-4 p-3" *ngIf="proposal.category">
+        <h6 class="card-subtitle text-muted">Category</h6>
+        <p class="card-text">{{proposal.category.name}}</p>
+      </div>
+      <div class="col-md-4 p-3">
+        <h6 class="card-subtitle text-muted">Timing</h6>
+        <p class="card-text">{{proposal.timing}}</p>
+      </div>
+      <div class="col-md-4 p-3">
+        <h6 class="card-subtitle text-muted">Speciality</h6>
+        <p class="card-text">{{proposal.speciality}}</p>
+      </div>
+      <div class="col-md-4 p-3">
+        <h6 class="card-subtitle text-muted">Kind</h6>
+        <p class="card-text">{{proposal.kind}}</p>
+      </div>
+      <div class="col-md-4 p-3" *ngIf="proposal.keywords?.length > 0">
+        <h6 class="card-subtitle text-muted">Keywords</h6>
+        <p class="card-text">{{proposal.keywords.join(', ')}}</p>
+      </div>
+    </div>
+    <div class="card-footer text-right">
+      <button id="listBtn" type="button" [routerLink]="['/proposals']"
+              class="btn m-1 btn-outline-primary">Proposal List
+      </button>
+      <ng-container *ngIf="isLoggedIn()">
+        <button id="editBtn" type="button" [routerLink]="['/proposals', proposal.id, 'edit']"
+                class="btn m-1 btn-outline-success">Edit
+        </button>
+        <button id="deleteBtn" type="button" [routerLink]="['/proposals', proposal.id, 'delete']"
+                class="btn m-1 btn-outline-danger">Delete
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
