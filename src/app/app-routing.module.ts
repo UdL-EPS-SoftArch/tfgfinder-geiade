@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: 'invite/:id/delete', component: InviteDeleteComponent, canActivate: [LoggedInGuard] },
   { path: 'invite/myInvites', component: InviteListComponent},
 
+  { path: 'agrees/:id', component: AgreeDetailComponent},
   { path: 'agree/create', component: AgreeCreateComponent},
   { path: 'agree/:id/detail', component: AgreeDetailComponent, canActivate: [LoggedInGuard]},
   { path: 'agree/:id/delete', component: AgreeDeleteComponent, canActivate: [LoggedInGuard] },

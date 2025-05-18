@@ -1,16 +1,15 @@
 import { HateoasResource, Resource } from '@lagoshny/ngx-hateoas-client';
 import {User} from "../login-basic/user";
-import {Proposal} from "../proposal/proposal"
 
 @HateoasResource('agrees')
 export class Agree extends Resource {
   id: number;
   agreeDate: Date = new Date();
   status: string;
-  who: User = new User();
+  user: User;
   agree: any;
   uri: string;
-  what: Proposal = new Proposal();
+  proposal= null; //Proposal
 
   constructor(values: object = {}) {
     super();

@@ -4,7 +4,7 @@
   <form (ngSubmit)="onSubmit()" #agreeForm="ngForm">
     <div class="mb-3">
     <label for="who">User</label>
-    <select [(ngModel)]="agree.who" name="who" class="form-control" required>
+    <select [(ngModel)]="agree.user" name="who" class="form-control" required>
       <option *ngFor="let user of users" [ngValue]="user">{{ user.username }}</option>
     </select>
   </div>
@@ -18,12 +18,12 @@
     </select>
     </div>
 
-    <div class="mb-3">
-    <label for="what">Proposal</label>
-    <select [(ngModel)]="agree.what" name="what" class="form-control" required>
-      <option *ngFor="let proposal of proposals" [ngValue]="proposal">{{ proposal.title }}</option>
-    </select>
+    <div class="form-group mb-3">
+      <label class="control-label" for="what">Proposal</label>
+      <input id="what" name="what" type="text" class="form-control" [(ngModel)]="agree.proposal"
+             #time="ngModel">
     </div>
+
 
     <div class="d-flex justify-content-end">
       <button type="submit" class="btn btn-primary" [disabled]="!agreeForm.form.valid">

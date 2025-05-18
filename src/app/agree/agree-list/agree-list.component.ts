@@ -37,7 +37,7 @@ export class AgreeListComponent implements OnInit {
             const idStr = href?.split('/').pop();
             agree.id = Number(idStr);
   
-            agree.getRelation<User>('who').subscribe(user => agree.who = user);
+            agree.getRelation<User>('user').subscribe(user => agree.user = user);
             //agree.getRelation<any>('what').subscribe(what => agree.what = what);
           }
           this.totalAgrees = page.totalElements;
@@ -53,7 +53,7 @@ export class AgreeListComponent implements OnInit {
         const idStr = href?.split('/').pop();
         agree.id = Number(idStr);
   
-        agree.getRelation<User>('who').subscribe(user => agree.who = user);
+        agree.getRelation<User>('user').subscribe(user => agree.user = user);
         //agree.getRelation<any>('what').subscribe(what => agree.what = what);
       }
     }

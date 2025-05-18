@@ -15,18 +15,18 @@
       </div>
       <div class="col-3 mt-1">
         <h6 class="card-subtitle text-muted">Who</h6>
-        <a class="card-text" [routerLink]="['/users', agree.who?.username]">{{agree.who?.username}}</a>
+        <a class="card-text" [routerLink]="['/users', agree.user?.username]">{{agree.user?.username}}</a>
       </div>
       <div class="col-3 mt-1">
-        <h6 class="card-subtitle text-muted">What</h6>
-        <p class="card-text">agree.what</p>
+        <h6 class="card-subtitle text-muted">Proposal</h6>
+        <p class="card-text">{{agree.proposal}}</p>
       </div>
       <div class="col-2 mt-1">
         <h6 class="card-subtitle text-muted">Status</h6>
         <p class="card-text">{{agree.status}}</p>
       </div>
       <div class="col-2 mt-1 text-end">
-        <button id="deleteBtn" type="button" *ngIf="agree.id === agree.id" [routerLink]="['delete']"
+        <button id="deleteBtn" type="button" *ngIf="agree.id === agree.id" [routerLink]="['/agree', agree.id, 'delete']"
                 class="btn m-1 btn-outline-danger">Delete
         </button>
       </div>
