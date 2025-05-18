@@ -19,7 +19,7 @@
       </div>
       <div class="col-3 mt-1">
         <h6 class="card-subtitle text-muted">What</h6>
-        <p class="card-text">invite.what</p>
+          <a class="card-text" [routerLink]="['/users', invite.what?.title]">{{invite.what?.title}}</a>
       </div>
       <div class="col-2 mt-1">
         <h6 class="card-subtitle text-muted">Status</h6>

@@ -16,6 +16,20 @@
       </select>
     </div>
 
+    <div class="mb-3">
+        <label for="what" class="form-label">Proposal</label>
+        <select
+                id="what"
+                class="form-select"
+                required
+                name="what"
+                [(ngModel)]="invite.what">
+            <option *ngFor="let proposal of proposals" [ngValue]="proposal">
+                {{ proposal.title }}
+            </option>
+        </select>
+    </div>
+
     <div class="d-flex justify-content-end">
       <button type="submit" class="btn btn-primary" [disabled]="!inviteForm.form.valid">
         <i class="fas fa-paper-plane me-1"></i> Create Invite

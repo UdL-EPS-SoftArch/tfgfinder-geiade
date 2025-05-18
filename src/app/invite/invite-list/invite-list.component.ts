@@ -40,7 +40,7 @@ export class InviteListComponent implements OnInit{
           invite.id = Number(idStr);
 
           invite.getRelation<User>('who').subscribe(user => invite.who = user);
-          //invite.getRelation<any>('what').subscribe(what => invite.what = what);
+          invite.getRelation<any>('what').subscribe(what => invite.what = what);
         }
         this.totalInvites = page.totalElements;
       });
@@ -56,7 +56,7 @@ export class InviteListComponent implements OnInit{
       invite.id = Number(idStr);
 
       invite.getRelation<User>('who').subscribe(user => invite.who = user);
-      //invite.getRelation<any>('what').subscribe(what => invite.what = what);
+      invite.getRelation<any>('what').subscribe(what => invite.what = what);
     }
   }
 
