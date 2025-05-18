@@ -1,0 +1,35 @@
+<div class="container mt-5 w-50 p-3">
+  <h1 class="mb-4">Create Agree</h1>
+
+  <form (ngSubmit)="onSubmit()" #agreeForm="ngForm">
+    <div class="mb-3">
+    <label for="who">User</label>
+    <select [(ngModel)]="agree.user" name="who" class="form-control" required>
+      <option *ngFor="let user of users" [ngValue]="user">{{ user.username }}</option>
+    </select>
+  </div>
+
+    <div class="mb-3">
+    <label for="status">Status</label>
+    <select [(ngModel)]="agree.status" name="status" class="form-control" required>
+      <option value="PENDING">Pending</option>
+      <option value="ACCEPTED">Accepted</option>
+      <option value="REJECTED">Rejected</option>
+    </select>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="control-label" for="what">Proposal</label>
+      <input id="what" name="what" type="text" class="form-control" [(ngModel)]="agree.proposal"
+             #time="ngModel">
+    </div>
+
+
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary" [disabled]="!agreeForm.form.valid">
+        <i class="fas fa-paper-plane me-1"></i> Create Agree
+      </button>
+    </div>
+
+  </form>
+</div>

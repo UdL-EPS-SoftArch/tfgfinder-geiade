@@ -1,88 +1,128 @@
-Feature: Register User
-  In order to use the app
-  As a user
-  I want to register myself and get an account
+Feature: Register all user types
+  In order to use the application
+  As a new user (Student, Professor, External or Organisation)
+  I want to register myself and log in automatically
 
-  Scenario: Register new user
+  Background:
     Given I'm in the homepage
     And I'm not logged in
-    When I click the "Register" menu
-    And I fill the form with
-      | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
-      | password | password      |
+
+  # --- STUDENT ---
+  Scenario: Register new student successfully
+    Given I go to the student registration page
+    When I fill the form with
+      | FIELD        | VALUE             |
+      | username     | student1          |
+      | email        | student@demo.app  |
+      | password     | password123       |
+      | name         | Alice             |
+      | surname      | Smith             |
+      | dni          | 12345678A         |
+      | address      | Fake St 123       |
+      | municipality | Lleida            |
+      | postalCode   | 25001             |
+      | phoneNumber  | 123456789         |
+      | degree       | Informatics       |
     And I click the "Submit" button
-    Then I'm logged in as user "user"
+    Then the user "student1" exists in the backend
 
-  Scenario: Register existing username
-    Given I'm in the homepage
-    And I'm not logged in
-    When I click the "Register" menu
-    And I fill the form with
-      | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
-      | password | password      |
+
+
+  Scenario: Register student with invalid DNI
+    Given I go to the student registration page
+    When I fill the form with
+      | FIELD        | VALUE             |
+      | username     | student2          |
+      | email        | invalid@x.com     |
+      | password     | password123       |
+      | name         | Bob               |
+      | surname      | Smith             |
+      | dni          | 1234              |
+      | address      | Street            |
+      | municipality | Lleida            |
+      | postalCode   | 25001             |
+      | phoneNumber  | 123456789         |
+      | degree       | Math              |
+    Then The "Submit" button is disabled
+    And I see input field feedback message "The DNI must have 8 digits followed by a letter"
+
+  # --- PROFESSOR ---
+  Scenario: Register new professor successfully
+    Given I go to the professor registration page
+    When I fill the form with
+      | FIELD      | VALUE             |
+      | username   | prof1             |
+      | email      | prof@demo.app     |
+      | password   | password123       |
+      | name       | Eva               |
+      | surname    | Llatra            |
+      | faculty    | EPS               |
+      | department | IT                |
+    And I click the "Submit" button
+    Then the user "prof1" exists in the backend
+
+
+
+  Scenario: Register professor with missing department
+    Given I go to the professor registration page
+    When I fill the form with
+      | FIELD    | VALUE             |
+      | username | prof2             |
+      | email    | p2@demo.app       |
+      | password | password123       |
+      | name     | Marta             |
+      | surname  | Blai              |
+      | faculty  | EPS               |
+    Then The "Submit" button is disabled
+
+  # --- EXTERNAL / ORGANISATION ---
+  Scenario: Register new external user successfully
+    Given I go to the external registration page
+    When I fill the form with
+      | FIELD        | VALUE              |
+      | username     | ext1               |
+      | email        | ext@demo.app       |
+      | password     | password123        |
+      | name         | Alex               |
+      | surname      | Ruiz               |
+      | organization | External Corp      |
+      | position     | Recruiter          |
+      | address      | Street 1           |
+      | municipality | Lleida             |
+      | postalCode   | 25001              |
+      | phoneNumber  | 987654321          |
+    And I click the "Submit" button
+    Then the user "ext1" exists in the backend
+
+
+  Scenario: Register external user with existing id
+    Given I go to the external registration page
+    When I fill the form with
+      | FIELD        | VALUE              |
+      | username     | ext1               |
+      | email        | ext2@demo.app      |
+      | password     | password123        |
+      | name         | Alex               |
+      | surname      | Ruiz               |
+      | position     | Manager            |
+      | organization | Another Corp       |
+      | address      | Another St         |
+      | municipality | Lleida             |
+      | postalCode   | 25002              |
+      | phoneNumber  | 987654321          |
     And I click the "Submit" button
     Then I see error message "Unique index or primary key violation"
 
-  Scenario: Register user when already authenticated
-    Given I'm in the homepage
-    And I log in as "user" with password "password"
-    Then The "Register" menu is not present
-
-  Scenario: Register user with empty password
-    Given I'm in the homepage
-    And I'm not logged in
-    When I click the "Register" menu
-    And I fill the form with
-      | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
+  Scenario: Register organisation with invalid phone
+    Given I go to the organisation registration page
+    When I fill the form with
+      | FIELD        | VALUE             |
+      | username     | org2              |
+      | email        | org2@demo.app     |
+      | password     | password123       |
+      | name         | Org 2             |
+      | address      | Another St 45     |
+      | email        | person@org.com    |
+      | phoneNumber  | 1234              |
     Then The "Submit" button is disabled
-
-  Scenario: Register user with empty email
-    Given I'm in the homepage
-    And I'm not logged in
-    When I click the "Register" menu
-    And I fill the form with
-      | FIELD    | VALUE         |
-      | username | user          |
-      | password | password      |
-    Then The "Submit" button is disabled
-
-  Scenario: Register user with invalid email
-    Given I'm in the homepage
-    And I'm not logged in
-    When I click the "Register" menu
-    And I fill the form with
-      | FIELD    | VALUE         |
-      | username | user          |
-      | email    | userdemo.app  |
-      | password | password      |
-    Then The "Submit" button is disabled
-    And I see input field feedback message "An e-mail is required"
-
-  Scenario: Register user with password shorter than 8 characters
-    Given I'm in the homepage
-    And I'm not logged in
-    When I click the "Register" menu
-    And I fill the form with
-      | FIELD    | VALUE         |
-      | username | user          |
-      | email    | user@demo.app |
-      | password | pass          |
-    Then The "Submit" button is disabled
-
-  Scenario: Register user with an existing email
-    Given I'm in the homepage
-    And I'm not logged in
-    When I click the "Register" menu
-    And I fill the form with
-      | FIELD    | VALUE         |
-      | username | user2         |
-      | email    | user@demo.app |
-      | password | password      |
-    And I click the "Submit" button
-    Then I see error message "Unique index or primary key violation"
+    And I see input field feedback message "The phone number must contain exactly 9 digits"

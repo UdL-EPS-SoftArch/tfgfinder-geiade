@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-end my-2">
+  <button type="button"
+          class="btn m-1 btn-success"
+          [routerLink]="['/agree/create']">
+    <span class="fas fa-plus-circle me-1"></span> Create a new agree
+  </button>
+</div>
+
+<div class="card mb-1" *ngFor="let agree of agrees">
+  <div class="card-block row m-1 col-12">
+    <div class="card-body row align-items-center">
+      <div class="col-2 mt-1">
+        <h6 class="card-subtitle text-muted">Id</h6>
+        <p class="card-text">{{ agree.id }}</p>
+      </div>
+      <div class="col-3 mt-1">
+        <h6 class="card-subtitle text-muted">Who</h6>
+        <a class="card-text" [routerLink]="['/users', agree.user?.username]">{{agree.user?.username}}</a>
+      </div>
+      <div class="col-3 mt-1">
+        <h6 class="card-subtitle text-muted">Proposal</h6>
+        <p class="card-text">{{agree.proposal}}</p>
+      </div>
+      <div class="col-2 mt-1">
+        <h6 class="card-subtitle text-muted">Status</h6>
+        <p class="card-text">{{agree.status}}</p>
+      </div>
+      <div class="col-2 mt-1 text-end">
+        <button id="deleteBtn" type="button" *ngIf="agree.id === agree.id" [routerLink]="['/agree', agree.id, 'delete']"
+                class="btn m-1 btn-outline-danger">Delete
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ngb-pagination class="d-flex justify-content-center"
+                [(page)]="page" [pageSize]="pageSize" [collectionSize]="totalAgrees"
+                (pageChange)="changePage()"></ngb-pagination>

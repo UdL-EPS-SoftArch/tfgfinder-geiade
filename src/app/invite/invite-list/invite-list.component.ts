@@ -33,14 +33,14 @@ export class InviteListComponent implements OnInit{
       (page: PagedResourceCollection<Invite>) => {
         console.log("Invites loaded:", page.resources); // <-- Verifica el contenido aquí
         this.invites = page.resources;
-
+        
         for (const invite of this.invites) {
           const href = (invite as any)._links?.self?.href;
           const idStr = href?.split('/').pop();
           invite.id = Number(idStr);
 
           invite.getRelation<User>('who').subscribe(user => invite.who = user);
-          //invite.getRelation<any>('what').subscribe(what => invite.what = what);
+          invite.getRelation<any>('what').subscribe(what => invite.what = what);
         }
         this.totalInvites = page.totalElements;
       });
@@ -56,7 +56,7 @@ export class InviteListComponent implements OnInit{
       invite.id = Number(idStr);
 
       invite.getRelation<User>('who').subscribe(user => invite.who = user);
-      //invite.getRelation<any>('what').subscribe(what => invite.what = what);
+      invite.getRelation<any>('what').subscribe(what => invite.what = what);
     }
   }
 
