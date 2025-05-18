@@ -25,4 +25,32 @@ div {
   display: block;
 }
 
+.repo-links {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.repo-links li {
+  margin-bottom: 0.5rem;
+}
+
+.repo-links a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  background-color: #e9ecef;
+  color: #212529;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.repo-links a:hover {
+  background-color: #ced4da;
+}
+
+.repo-links i {
+  margin-right: 0.5rem;
+}
+
+
 
