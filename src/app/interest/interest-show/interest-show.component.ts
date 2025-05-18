@@ -1,32 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { InterestService } from '../interest.service';
-import { Location } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
-
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
+import { InterestService } from '../interest.service';
+import { AuthenticationBasicService } from '../../login-basic/authentication-basic.service';
 
 @Component({
   selector: 'app-interest-show',
   templateUrl: './interest-show.component.html',
   styleUrls: ['./interest-show.component.css'],
   standalone: true,
-  imports: [
-    CommonModule, 
-    RouterModule
-  ]
+  imports: [CommonModule, RouterModule]
 })
 export class InterestShowComponent implements OnInit {
+  /**
+   * Array of interests where each item contains:
+   * - proposal: the related proposal data (or null if unavailable)
+   * - requester: the user who requested the interest
+   * - id: the interest identifier
+   */
+  public interests: Array<{ proposal: any | null; requester: any; id: string }> = [];
 
-  
-  interests: any[] = [];
-  isLoading = false;
-  loadError: string | null = null;
+  /** Indicates whether data is currently loading */
+  public isLoading = false;
 
+  /** Holds an error message if loading fails */
+  public loadError: string | null = null;
 
   constructor(
     private interestService: InterestService,
@@ -34,103 +35,123 @@ export class InterestShowComponent implements OnInit {
     private httpClient: HttpClient
   ) {}
 
-
+  /**
+   * Lifecycle hook: called after component initialization
+   */
   ngOnInit(): void {
-    this.getInterests();
+    this.loadInterests();
   }
 
-
   /**
-   * 
-   * Get all interests from the service and process them.
-   * This method is called when the component is initialized.
-   * It fetches the interests from the server and processes them to display in the component.
-   * 
+   * Initiates fetching all interests for the current user
    */
-  getInterests(): void {
+  private loadInterests(): void {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
-      this.handleError('User not logged in');
+      this.handleError('User not authenticated');
       return;
     }
 
     this.isLoading = true;
     this.interestService.getAllInterests().subscribe({
-      next: data => this.processInterests(data, currentUser.username),
-      error: () => this.handleError('Error fetching interests')
+      next: response => this.processInterests(response, currentUser.username),
+      error: () => this.handleError('Failed to fetch interests')
     });
   }
 
-
-  private async processInterests(response: any, username: string): Promise<void> {
-    const interestsList = response?._embedded?.interests || [];
-    if (interestsList.length === 0) {
+  /**
+   * Processes the HAL response of interests, fetching related entities
+   * and filtering by those owned by the current user
+   */
+  private processInterests(response: any, username: string): void {
+    const interestArray = response?._embedded?.interests || [];
+    if (interestArray.length === 0) {
       this.finishLoading([]);
       return;
     }
 
-    let pendingRequests = interestsList.length;
-    const filteredInterests: any[] = [];
+    let pendingRequests = interestArray.length;
+    const filtered: Array<{ proposal: any | null; requester: any; id: string }> = [];
 
-    // iterate over the interests
-    for (const interest of interestsList) {
-      try {
-        const proposalUrl = interest._links.what.href;
-        const requesterUrl = interest._links.who.href;
+    interestArray.forEach(interest => {
+      const proposalUrl = interest._links.what?.href;
+      const requesterUrl = interest._links.who?.href;
 
-        // Load independent entities in parallel
-        const [proposal, requester] = await Promise.all([
-          this.loadEntity(proposalUrl),
-          this.loadEntity(requesterUrl)
-        ]);
+      this.fetchEntity(proposalUrl)
+        .then(proposal => {
+          if (!proposal) {
+            // Skip entries without a valid proposal
+            if (--pendingRequests === 0) this.finishLoading(filtered);
+            return;
+          }
 
-        const proposalOwner = await this.loadEntity(proposal._links.owner.href);
+          const ownerUrl = proposal._links?.owner?.href;
+          this.fetchEntity(ownerUrl)
+            .then(owner => {
+              this.fetchEntity(requesterUrl)
+                .then(requester => {
+                  if (owner?.username === username) {
+                    filtered.push({
+                      proposal,
+                      requester,
+                      id: this.extractId(interest._links.self.href)
+                    });
+                  }
 
-        if (proposalOwner.username === username) {
-          filteredInterests.push({
-            ...interest,
-            what: proposal,
-            who: requester,
-            id: this.extractId(interest._links.self.href)
-          });
-        }
-      } catch (error) {
-        console.error('Error procesando interés:', error);
-      } finally {
-        pendingRequests--;
-        if (pendingRequests === 0) {
-          this.finishLoading(filteredInterests);
-        }
-      }
+                  if (--pendingRequests === 0) this.finishLoading(filtered);
+                })
+                .catch(() => this.handlePartialError(--pendingRequests, filtered));
+            })
+            .catch(() => this.handlePartialError(--pendingRequests, filtered));
+        })
+        .catch(() => this.handlePartialError(--pendingRequests, filtered));
+    });
+  }
+
+  /**
+   * Fetches an entity from a given URL, returning null on failure
+   */
+  private fetchEntity(url: string | undefined): Promise<any | null> {
+    if (!url) {
+      return Promise.resolve(null);
     }
+
+    return firstValueFrom(this.httpClient.get<any>(url))
+      .catch(error => {
+        console.error('Error fetching entity:', url, error);
+        return null;
+      });
   }
 
-
-  private loadEntity(url: string): Promise<any> {
-    return this.httpClient.get<any>(url).toPromise();
-  }
-
-
+  /**
+   * Extracts the ID segment from a HAL self link
+   */
   private extractId(link: string): string {
     return link.substring(link.lastIndexOf('/') + 1);
   }
 
-
+  /**
+   * Finalizes loading by setting the displayed interests
+   */
   private finishLoading(data: any[]): void {
     this.interests = data;
     this.isLoading = false;
   }
 
-
+  /**
+   * Handles a fatal error by showing a message
+   */
   private handleError(message: string): void {
     this.loadError = message;
     this.isLoading = false;
   }
 
-
+  /**
+   * Handles partial errors and finishes when all requests are done
+   */
   private handlePartialError(pending: number, accumulated: any[]): void {
-    if (pending === 0) this.finishLoading(accumulated);
+    if (pending === 0) {
+      this.finishLoading(accumulated);
+    }
   }
-
-
 }
