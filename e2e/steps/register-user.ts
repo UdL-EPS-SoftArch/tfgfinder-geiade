@@ -52,6 +52,7 @@ Then("I see user {string} in the user list", (username: string) => {
 });
 
 Then("the user {string} exists in the backend", (username: string) => {
+  cy.wait(4000); // Wait for the user to be created
   cy.request({
     method: 'GET',
     url: `http://localhost:8080/api/users/${username}`,
