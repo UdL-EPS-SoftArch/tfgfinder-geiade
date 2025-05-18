@@ -62,7 +62,7 @@ export class InterestShowComponent implements OnInit {
   }
 
 
-  private processInterests(response: any, username: string): void {
+  private async processInterests(response: any, username: string): Promise<void> {
     const interestsList = response?._embedded?.interests || [];
     if (interestsList.length === 0) {
       this.finishLoading([]);
@@ -72,31 +72,42 @@ export class InterestShowComponent implements OnInit {
     let pendingRequests = interestsList.length;
     const filteredInterests: any[] = [];
 
-    interestsList.forEach(interest => {
-      const proposalUrl = interest._links.what.href;
-      const requesterUrl = interest._links.who.href;
+    // iterate over the interests
+    for (const interest of interestsList) {
+      try {
+        const proposalUrl = interest._links.what.href;
+        const requesterUrl = interest._links.who.href;
 
-      this.loadEntity(proposalUrl).then(proposal => {
-        this.loadEntity(proposal._links.owner.href).then(proposalOwner => {
-          this.loadEntity(requesterUrl).then(requester => {
-            if (proposalOwner.username === username) {
-              filteredInterests.push({
-                ...interest,
-                what: proposal,
-                who: requester,
-                id: this.extractId(interest._links.self.href)
-              });
-            }
-            if (--pendingRequests === 0) this.finishLoading(filteredInterests);
-          }).catch(() => this.handlePartialError(--pendingRequests, filteredInterests));
-        }).catch(() => this.handlePartialError(--pendingRequests, filteredInterests));
-      }).catch(() => this.handlePartialError(--pendingRequests, filteredInterests));
-    });
+        // Load independent entities in parallel
+        const [proposal, requester] = await Promise.all([
+          this.loadEntity(proposalUrl),
+          this.loadEntity(requesterUrl)
+        ]);
+
+        const proposalOwner = await this.loadEntity(proposal._links.owner.href);
+
+        if (proposalOwner.username === username) {
+          filteredInterests.push({
+            ...interest,
+            what: proposal,
+            who: requester,
+            id: this.extractId(interest._links.self.href)
+          });
+        }
+      } catch (error) {
+        console.error('Error procesando interés:', error);
+      } finally {
+        pendingRequests--;
+        if (pendingRequests === 0) {
+          this.finishLoading(filteredInterests);
+        }
+      }
+    }
   }
 
 
   private loadEntity(url: string): Promise<any> {
-    return this.interestService['http'].get<any>(url).toPromise();
+    return this.httpClient.get<any>(url).toPromise();
   }
 
 
