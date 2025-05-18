@@ -7,6 +7,8 @@ import {NgForOf} from "@angular/common";
 import {User} from "../../login-basic/user";
 import {UserService} from "../../user/user.service";
 import {PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
+import {Proposal} from "../../proposal/proposal";
+import {ProposalService} from "../../proposal/proposal.service";
 
 @Component({
   selector: 'app-invite-create',
@@ -20,11 +22,13 @@ import {PagedResourceCollection} from "@lagoshny/ngx-hateoas-client";
 export class InviteCreateComponent implements OnInit {
   public invite: Invite = new Invite();
   public users: User[] = [];
+  public proposals: Proposal[] = [];
 
   constructor(
     public router: Router,
     private inviteService: InviteService,
-    private userService: UserService
+    private userService: UserService,
+    private proposalService: ProposalService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +38,14 @@ export class InviteCreateComponent implements OnInit {
         console.log('Users loaded:', this.users);
       },
       error: err => console.error('Error loading users:', err)
+    });
+
+    this.proposalService.getPage({ pageParams: { page: 0, size: 100 } }).subscribe({
+      next: (page: PagedResourceCollection<Proposal>) => {
+        this.proposals = page.resources;
+        console.log('Proposals loaded:', this.proposals);
+      },
+      error: err => console.error('Error loading proposals:', err)
     });
   }
 

@@ -1,5 +1,6 @@
 import { HateoasResource, Resource } from '@lagoshny/ngx-hateoas-client';
 import {User} from "../login-basic/user";
+import {Proposal} from "../proposal/proposal";
 
 @HateoasResource('invites')
 export class Invite extends Resource {
@@ -8,7 +9,7 @@ export class Invite extends Resource {
   status: string;
   who: User = new User();
   invite: any;
-  //what: Proposal = new Proposal();
+  what: Proposal = new Proposal();
 
   constructor(values: object = {}) {
     super();
