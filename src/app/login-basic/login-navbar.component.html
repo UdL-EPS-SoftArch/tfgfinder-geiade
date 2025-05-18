@@ -16,6 +16,7 @@
 
 <li class="nav-item" *ngIf="!isLoggedIn()">
   <a class="nav-link" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
-     [routerLink]="['/users/create']">
+     [routerLink]="['/register']">
     <span class="fas fa-user-plus"></span> Register</a>
 </li>
+

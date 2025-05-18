@@ -1,0 +1,40 @@
+<div class="container mt-5 w-50 p-3">
+  <h1 class="mb-4">Create Invite</h1>
+
+  <form (ngSubmit)="onSubmit()" #inviteForm="ngForm">
+    <div class="mb-3">
+      <label for="who" class="form-label">User</label>
+      <select
+        id="who"
+        class="form-select"
+        required
+        name="who"
+        [(ngModel)]="invite.who">
+        <option *ngFor="let user of users" [ngValue]="user">
+          {{ user.username }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="what" class="form-label">Proposal</label>
+        <select
+                id="what"
+                class="form-select"
+                required
+                name="what"
+                [(ngModel)]="invite.what">
+            <option *ngFor="let proposal of proposals" [ngValue]="proposal">
+                {{ proposal.title }}
+            </option>
+        </select>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary" [disabled]="!inviteForm.form.valid">
+        <i class="fas fa-paper-plane me-1"></i> Create Invite
+      </button>
+    </div>
+
+  </form>
+</div>

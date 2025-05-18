@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Proposals</h4>
+  <a *ngIf="isLoggedIn" routerLink="/proposals/create" class="btn btn-primary">
+    + Add Proposal
+  </a>
+</div>
+<div class="card mb-1" *ngFor="let proposal of proposals">
+  <div class="card-block row m-1 col-12">
+    <div class="card-body row align-items-center">
+      <div class="col-6 mt-1">
+        <h6 class="card-subtitle text-muted">Title</h6>
+        <a class="card-text" [routerLink]="['/proposals', proposal.id, 'detail']">{{ proposal.title }}</a>
+      </div>
+      <div class="col-6 mt-1">
+        <h6 class="card-subtitle text-muted">Category</h6>
+        <p *ngIf="proposal.category?.name; else noCategory" class="card-text">
+          {{ proposal.category.name }}
+        </p>
+
+        <ng-template #noCategory>
+          <p class="card-text text-muted">No category assigned</p>
+        </ng-template>
+      </div>
+      <div class="col-12 mt-1">
+        <h6 class="card-subtitle text-muted">Description</h6>
+        <p class="card-text">{{proposal.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngb-pagination class="d-flex justify-content-center"
+                [(page)]="page" [pageSize]="pageSize" [collectionSize]="totalProposals"
+                (pageChange)="changePage()"></ngb-pagination>

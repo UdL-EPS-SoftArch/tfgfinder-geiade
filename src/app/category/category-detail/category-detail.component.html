@@ -1,0 +1,33 @@
+<div class="card mb-4">
+  <div class="card-block">
+    <h4 class="card-title col-md-12 p-3">{{category.name}}</h4>
+    <div class="card-body row m-1">
+      <div class="col-md-4 p-3">
+        <h6 class="card-subtitle text-muted">Name</h6>
+        <p class="card-text">{{category.name}}</p>
+      </div>
+      <div class="col-md-4 p-3">
+        <h6 class="card-subtitle text-muted">Description</h6>
+        <p class="card-text">{{category.description}}</p>
+      </div>
+    </div>
+    <div class="card-footer text-right">
+      <button id="listBtn" type="button" [routerLink]="['/categories']"
+              class="btn m-1 btn-outline-primary">User List
+      </button>
+      <ng-container *ngIf="isLoggedIn()">
+        <button id="editBtn" type="button"  [routerLink]="['/categories', category.name, 'edit']"
+                class="btn m-1 btn-outline-success">Edit
+        </button>
+        <button id="deleteBtn"
+                type="button"
+                [routerLink]="['/categories', category.name, 'delete']"
+                class="btn m-1 btn-outline-danger">
+          Delete
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+
