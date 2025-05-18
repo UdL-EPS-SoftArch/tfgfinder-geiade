@@ -8,6 +8,11 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { UserRegisterComponent } from './user/user-register/user-register.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserDeleteComponent } from './user/user-delete/user-delete.component';
+import { OrganisationRegisterComponent } from './organisation/organisation-register/organisation-register.component';
+import { RegisterTypeSelectionComponent } from './register-type-selection/register-type-selection.component';
+import { StudentRegisterComponent } from './student/student-register/student-register.component';
+import { ProfessorRegisterComponent } from './professor/professor-register/professor-register.component';
+//import { ExternalListComponent } from './admin/external-list/external-list.component';
 import {CategoryListComponent} from "./category/category-list/category-list.component";
 import {CategoryDetailComponent} from "./category/category-detail/category-detail.component";
 import {CategoryDeleteComponent} from "./category/category-delete/category-delete.component";
@@ -22,10 +27,9 @@ import { ProposalCreateComponent } from './proposal/proposal-create/proposal-cre
 import {ProposalDetailComponent} from "./proposal/proposal-detail/proposal-detail.component";
 import {ProposalDeleteComponent} from "./proposal/proposal-delete/proposal-delete.component";
 
-
-
-
 const routes: Routes = [
+  { path: 'users/create', redirectTo: 'register-student', pathMatch: 'full'},
+  //{ path: 'users/create', component: UserRegisterComponent},
   { path: 'categories/create', component: CategoryRegisterComponent},
   { path: 'categories/:name/edit', component: CategoryEditComponent},
   { path: 'categories/:name/delete', component: CategoryDeleteComponent},
@@ -41,6 +45,11 @@ const routes: Routes = [
   { path: 'users/:id/edit', component: UserEditComponent, canActivate: [LoggedInGuard]},
   { path: 'users/:id', component: UserDetailComponent, canActivate: [LoggedInGuard]},
   { path: 'users', component: UserListComponent, canActivate: [LoggedInGuard]},
+  { path: 'register-organisation', component: OrganisationRegisterComponent},
+  { path: 'register', component: RegisterTypeSelectionComponent },
+  { path: 'register-student', component: StudentRegisterComponent },
+  { path: 'register-professor', component: ProfessorRegisterComponent },
+  //{ path: 'admin/organisations', component: ExternalListComponent },
   { path: 'about', component: AboutComponent},
   { path: '404', component: NotFoundComponent},
   { path: '', redirectTo: 'about', pathMatch: 'full'},
