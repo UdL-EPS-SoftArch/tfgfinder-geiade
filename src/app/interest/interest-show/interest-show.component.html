@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2>Interest List</h2>
+
+  <div *ngIf="!isLoading && !loadError && interests.length > 0" class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Requester</th>
+          <th>Proposal Title</th>
+          <th>Date Submitted</th>
+          <th>Current Status</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let interest of interests">
+          <td>{{ interest.who?.username || 'N/A' }}</td>
+          <td>{{ interest.what?.title || 'N/A' }}</td>
+          <td>{{ interest.when | date:'medium' }}</td>
+          <td>{{ interest.status }}</td>
+          <td>
+            <button (click)="accept(interest)" 
+                    class="btn btn-success btn-sm me-2" 
+                    [disabled]="interest.status === 'ACCEPTED'">
+              <i class="fas fa-check"></i> Approve
+            </button>
+            <button (click)="reject(interest)" 
+                    class="btn btn-danger btn-sm" 
+                    [disabled]="interest.status === 'REJECTED'">
+              <i class="fas fa-times"></i> Decline
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center mt-3">
+    <p>Loading interests...</p>
+  </div>
+
+  <div *ngIf="loadError" class="alert alert-danger mt-3">
+    {{ loadError }}
+  </div>
+
+  <div *ngIf="!isLoading && !loadError && interests.length === 0" class="alert alert-info mt-3">  º
+    No interests available.
+  </div>
+</div>

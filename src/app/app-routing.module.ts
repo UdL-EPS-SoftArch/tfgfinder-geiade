@@ -30,6 +30,7 @@ import {ProposalListComponent } from './proposal/proposal-list/proposal-list.com
 import {ProposalCreateComponent } from './proposal/proposal-create/proposal-create.component';
 import {ProposalDetailComponent} from "./proposal/proposal-detail/proposal-detail.component";
 import {ProposalDeleteComponent} from "./proposal/proposal-delete/proposal-delete.component";
+import { InterestShowComponent } from './interest/interest-show/interest-show.component';
 
 const routes: Routes = [
   { path: 'users/create', redirectTo: 'register-student', pathMatch: 'full'},
@@ -66,6 +67,7 @@ const routes: Routes = [
   { path: 'agree/:id/detail', component: AgreeDetailComponent, canActivate: [LoggedInGuard]},
   { path: 'agree/:id/delete', component: AgreeDeleteComponent, canActivate: [LoggedInGuard] },
   { path: 'agree/myAgrees', component: AgreeListComponent},
+  { path: 'interests', component: InterestShowComponent, canActivate: [LoggedInGuard]},
 ];
 
 @NgModule({
